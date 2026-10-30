@@ -23,6 +23,16 @@ input[type="date"]::-webkit-datetime-edit{min-width:0;padding:0}
 .date-field:focus-within{outline:3px solid #854b53;outline-offset:3px}
 .date-field input:focus-visible{outline:none}
 #confirmation h2{font-size:20px}.consent{font-size:13px}
+
+.date-icon{position:absolute;left:17px;top:50%;transform:translateY(-50%);width:21px;height:21px;color:#b7787d;pointer-events:none}
+.date-field input[type="date"]{padding-left:48px;padding-right:14px;position:relative;z-index:1}
+.date-placeholder{position:absolute;left:48px;right:14px;top:50%;transform:translateY(-50%);color:#81776f;font-size:14px;pointer-events:none;white-space:nowrap}
+.date-field input:valid~.date-placeholder{display:none}
+.date-field input:invalid::-webkit-datetime-edit{opacity:0}
+.date-field input:valid::-webkit-datetime-edit{opacity:1}
+.date-field input:invalid{color:transparent}
+.date-field input:valid{color:#493a35}
+.date-field input::-webkit-calendar-picker-indicator{opacity:.65}
 </style>
 </head>
 <body>
@@ -37,7 +47,11 @@ input[type="date"]::-webkit-datetime-edit{min-width:0;padding:0}
 <section class="step" aria-labelledby="date-heading">
 <h2 id="date-heading"><span class="number">01</span>ご希望の日にち</h2>
 <label class="sr-only" for="date">ご希望の日にち（日本時間）</label>
-<div class="date-field"><input id="date" name="date" type="date" required></div>
+<div class="date-field">
+<svg class="date-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 2v6m10-6v6M3 11h18"/></svg>
+<input id="date" name="date" type="date" required>
+<span class="date-placeholder" aria-hidden="true">日付を選択してください</span>
+</div>
 <p class="note">毎日10:00〜20:00開始の枠を受け付けます（日本時間）。実際の空き状況は予約サービス接続後に反映されます。</p>
 </section>
 <section class="step" aria-labelledby="time-heading">
