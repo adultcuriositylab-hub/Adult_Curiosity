@@ -38,6 +38,7 @@ input[type="date"]::-webkit-datetime-edit{min-width:0;padding:0}
 .back{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 24px;border-radius:999px;background:#f4e1e0;font-weight:700;text-decoration:none}
 .time-option span{white-space:nowrap}
 .methods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;border:0;padding:0;margin:0;min-width:0}.methods .time-option span{font-size:13px;min-height:48px}
+textarea{display:block;width:100%;max-width:100%;min-width:0;min-height:120px;resize:vertical;padding:14px 16px;border:1px solid #dbd3cc;border-radius:18px;background:#fffaf2;color:#493a35;font:inherit;font-size:16px;line-height:1.7}textarea:focus-visible{outline:3px solid #854b53;outline-offset:4px}.optional{display:inline-block;font-size:11px;color:#854b53;background:#f4e1e0;border-radius:6px;padding:1px 7px;font-weight:400;white-space:nowrap}#summary dd{white-space:pre-wrap}
 </style>
 </head>
 <body>
@@ -92,6 +93,8 @@ input[type="date"]::-webkit-datetime-edit{min-width:0;padding:0}
 <input id="customer-name" name="name" type="text" autocomplete="name" maxlength="100" placeholder="例：はな" required>
 <label class="field-label" for="email">メールアドレス</label>
 <input id="email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="example@email.com" required>
+<label class="field-label" for="advance-message">事前に伝えておきたい内容があれば、ご記入ください。 <span class="optional">任意</span></label>
+<textarea id="advance-message" name="message" rows="4" maxlength="3000" placeholder="ご質問やご希望など、ご自由にお書きください。"></textarea>
 <div class="privacy" style="margin-top:24px">
 <h3>プライバシーについて</h3>
 <p>ご相談内容や個人情報は大切に取り扱います。個別の相談内容を無断で公開することはありません。</p>
@@ -124,7 +127,7 @@ const selected=new Date(data.get('date')+'T'+data.get('time')+':00+09:00');
 if(selected<=new Date()){date.setCustomValidity('未来の日時を選んでください。');date.reportValidity();return;}
 date.setCustomValidity('');
 const summary=document.getElementById('summary');summary.replaceChildren();
-[['ご相談の方法',data.get('method')],['ご希望の日にち',data.get('date')],['ご希望の時間',data.get('time')+'〜（60分・日本時間）'],['お名前',data.get('name')],['メールアドレス',data.get('email')]].forEach(([label,value])=>{const row=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;row.append(dt,dd);summary.append(row);});
+[['ご相談の方法',data.get('method')],['ご希望の日にち',data.get('date')],['ご希望の時間',data.get('time')+'〜（60分・日本時間）'],['お名前',data.get('name')],['メールアドレス',data.get('email')],['事前に伝えておきたい内容',data.get('message')?.trim() || '記入なし']].forEach(([label,value])=>{const row=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;row.append(dt,dd);summary.append(row);});
 form.hidden=true;confirmation.hidden=false;confirmation.focus();confirmation.scrollIntoView({block:'start'});
 });
 date.addEventListener('input',()=>date.setCustomValidity(''));
