@@ -10,6 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&amp;display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box}body{margin:0;background:#fffaf2;color:#493a35;font-family:"Zen Maru Gothic",sans-serif;font-size:16px;line-height:1.8}a{color:#854b53;text-underline-offset:4px}a:focus-visible{outline:3px solid #854b53;outline-offset:5px}.shell{width:min(100% - 32px,720px);margin:32px auto}.card{background:#fffdf5;border:1px solid #e8d8cf;border-radius:32px;padding:28px 22px}.intro{text-align:center}.brand{color:#b7787d;font-weight:700;text-decoration:none}.intro h1{font-size:clamp(25px,5vw,34px);line-height:1.5;margin:10px 0 12px}.intro p{color:#715f59;margin:0;font-size:clamp(16px,3vw,21px)}.notice{margin-top:26px;background:#f4e1e0;border-radius:20px;padding:20px}.notice h2{font-size:20px;margin:0 0 8px}.notice p{margin:0;color:#715f59}.step{border-top:1px solid #e8d8cf;margin-top:28px;padding-top:26px}.step h2{display:flex;gap:16px;align-items:baseline;font-size:clamp(20px,3.5vw,25px);margin:0 0 18px}.number{font-weight:500}.pending{display:flex;align-items:center;gap:12px;border:1px solid #dbd3cc;border-radius:999px;padding:15px 20px;color:#81776f;min-height:58px;background:#fffaf2}.pending svg{width:22px;height:22px;flex-shrink:0}.slots{display:grid;grid-template-columns:1fr 1fr;gap:12px}.slot{border:1px solid #e0d5d0;border-radius:18px;background:#fffdf9;text-align:center;padding:18px 8px;color:#81776f}.note{font-size:14px;color:#715f59;margin:14px 0 0}.privacy{background:#f6eae5;border-radius:22px;padding:20px}.privacy h3{font-size:19px;margin:0 0 12px}.privacy p{font-size:14px;color:#715f59;margin:0 0 12px}.privacy p:last-child{margin:0}.action{display:flex;align-items:center;justify-content:center;gap:12px;min-height:60px;margin-top:26px;padding:14px 20px;border-radius:999px;background:#bd777b;color:white;font-size:clamp(16px,3vw,22px);font-weight:700;text-align:center;text-decoration:none}.action:hover{background:#aa646c}.action-note{text-align:center;font-size:13px;color:#715f59;margin:12px 0 0}.back{display:inline-flex;align-items:center;min-height:44px;margin-top:18px;font-size:14px}footer{text-align:center;color:#715f59;font-size:12px;margin-top:20px}@media(min-width:600px){.shell{margin:48px auto}.card{padding:36px 32px}.step{margin-top:36px;padding-top:32px}.privacy{padding:24px}}
+
+input[type="date"],input[type="text"],input[type="email"]{display:block;width:100%;min-width:0;min-height:58px;padding:13px 20px;border:1px solid #dbd3cc;border-radius:999px;background:#fffaf2;color:#493a35;font:inherit}
+input:focus-visible,button:focus-visible{outline:3px solid #854b53;outline-offset:4px}.field-label{display:block;margin:18px 0 8px;font-weight:500}.times{display:grid;grid-template-columns:1fr 1fr;gap:12px;border:0;padding:0;margin:0}.time-option{position:relative}.time-option input{position:absolute;opacity:0}.time-option span{display:flex;align-items:center;justify-content:center;border:1px solid #e0d5d0;border-radius:18px;background:#fffdf9;min-height:66px;font-size:21px}.time-option input:checked+span{background:#f4e1e0;border:2px solid #bd777b;font-weight:700}.time-option input:checked+span:before{content:"✓";margin-right:10px;color:#b7787d}.time-option input:focus-visible+span{outline:3px solid #854b53;outline-offset:3px}.consent{display:flex;align-items:flex-start;gap:12px}.consent input{width:22px;height:22px;flex-shrink:0;accent-color:#854b53;margin-top:5px}button.action{border:0;width:100%;font-family:inherit;cursor:pointer}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}#confirmation{margin-top:30px}#summary{margin:20px 0}#summary div{padding:14px 0;border-bottom:1px solid #e8d8cf}#summary dt{font-size:14px;color:#715f59}#summary dd{margin:4px 0 0;overflow-wrap:anywhere}[hidden]{display:none!important}
 </style>
 </head>
 <body>
@@ -20,34 +23,74 @@
 <h1>カウンセリングのご予約</h1>
 <p>恋愛のこと、パートナーのこと。<br>あなたの気持ちを、ゆっくりお聞かせください。</p>
 </header>
-<aside class="notice" aria-labelledby="booking-status">
-<h2 id="booking-status">予約受付は準備中です</h2>
-<p>現在、サービス内容・料金・予約枠を準備しています。受付開始まで、日付や時間の選択はご利用いただけません。ご質問はメールでお気軽にお問い合わせください。</p>
-</aside>
+<form id="reservation">
 <section class="step" aria-labelledby="date-heading">
 <h2 id="date-heading"><span class="number">01</span>ご希望の日にち</h2>
-<div class="pending"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 2v6m10-6v6M3 11h18"/></svg><span>受付開始後に選択できます</span></div>
+<label class="sr-only" for="date">ご希望の日にち（日本時間）</label>
+<input id="date" name="date" type="date" required>
+<p class="note">日時は日本時間です。受付曜日・空き状況は連携設定後に反映されます。</p>
 </section>
 <section class="step" aria-labelledby="time-heading">
 <h2 id="time-heading"><span class="number">02</span>ご希望の時間</h2>
-<div class="slots" aria-label="受付時間は準備中です"><div class="slot">受付時間<br>準備中</div><div class="slot">相談時間<br>準備中</div></div>
-<p class="note">予約枠が決まり次第、こちらでご案内します。</p>
+<fieldset class="times"><legend class="sr-only">開始時間を選んでください</legend>
+<label class="time-option"><input type="radio" name="time" value="10:00" required><span>10:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" value="11:00" required><span>11:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" value="12:00" required><span>12:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" value="13:00" required><span>13:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" value="14:00" required><span>14:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" value="15:00" required><span>15:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" value="16:00" required><span>16:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" value="17:00" required><span>17:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" value="18:00" required><span>18:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" value="19:00" required><span>19:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" value="20:00" required><span>20:00〜</span></label>
+</fieldset>
+<p class="note">各枠60分です。20:00開始の枠は21:00に終了します。</p>
 </section>
-<section class="step" aria-labelledby="inquiry-heading">
-<h2 id="inquiry-heading"><span class="number">03</span>お問い合わせ</h2>
-<p style="color:#715f59;margin:0 0 22px">サービスについてのご質問やご相談は、下のボタンからメールでお送りください。</p>
-<div class="privacy">
+<section class="step" aria-labelledby="customer-heading">
+<h2 id="customer-heading"><span class="number">03</span>お客様情報</h2>
+<label class="field-label" for="customer-name">お名前（ニックネーム可）</label>
+<input id="customer-name" name="name" type="text" autocomplete="name" maxlength="100" placeholder="例：はな" required>
+<label class="field-label" for="email">メールアドレス</label>
+<input id="email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="example@email.com" required>
+<div class="privacy" style="margin-top:24px">
 <h3>プライバシーについて</h3>
 <p>ご相談内容や個人情報は大切に取り扱います。個別の相談内容を無断で公開することはありません。</p>
-<p><a href="/privacy.html">プライバシーポリシーを確認する</a></p>
+<label class="consent"><input type="checkbox" name="privacy" required><span><a href="/privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>を確認し、同意します</span></label>
 </div>
-<a class="action" href="mailto:adultcuriositylab@gmail.com?subject=%E3%82%AB%E3%82%A6%E3%83%B3%E3%82%BB%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E3%81%AE%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B">メールでお問い合わせ <span aria-hidden="true">→</span></a>
-<p class="action-note">メールアプリが開きます。予約を確定する操作ではありません。</p>
-<p class="action-note"><a href="mailto:adultcuriositylab@gmail.com">adultcuriositylab@gmail.com</a></p>
+<button class="action" type="submit">予約内容を確認する <span aria-hidden="true">→</span></button>
+<p class="action-note">現在は入力・確認までご利用いただけます。空き状況との連動・予約確定機能は接続前です。</p>
+</section>
+</form>
+<section id="confirmation" hidden aria-labelledby="confirmation-heading" tabindex="-1">
+<h2 id="confirmation-heading">予約内容の確認</h2>
+<dl id="summary"></dl>
+<div class="notice"><h3 style="margin:0 0 8px">予約はまだ確定していません</h3><p>空き状況と連動する予約機能を接続するまで、このページから予約の送信・確定はできません。現在、入力した情報は送信・保存されていません。</p></div>
+<button id="edit" class="action" type="button">入力内容を修正する</button>
+<p class="action-note">ご相談は <a href="mailto:adultcuriositylab@gmail.com">メール</a>でお問い合わせください。</p>
 </section>
 </main>
 <a class="back" href="/">← トップページへ戻る</a>
 <footer>© 大人の自由研究所</footer>
 </div>
+<script>
+const form=document.getElementById('reservation'), confirmation=document.getElementById('confirmation'), date=document.getElementById('date');
+const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+date.min=today;
+form.addEventListener('submit',event=>{
+event.preventDefault();
+if(!form.reportValidity())return;
+const data=new FormData(form);
+const selected=new Date(data.get('date')+'T'+data.get('time')+':00+09:00');
+if(selected<=new Date()){date.setCustomValidity('未来の日時を選んでください。');date.reportValidity();return;}
+date.setCustomValidity('');
+const summary=document.getElementById('summary');summary.replaceChildren();
+[['ご希望の日にち',data.get('date')],['ご希望の時間',data.get('time')+'〜（60分・日本時間）'],['お名前',data.get('name')],['メールアドレス',data.get('email')]].forEach(([label,value])=>{const row=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;row.append(dt,dd);summary.append(row);});
+form.hidden=true;confirmation.hidden=false;confirmation.focus();confirmation.scrollIntoView({block:'start'});
+});
+date.addEventListener('input',()=>date.setCustomValidity(''));
+form.addEventListener('change',()=>date.setCustomValidity(''));
+document.getElementById('edit').addEventListener('click',()=>{confirmation.hidden=true;form.hidden=false;date.focus();form.scrollIntoView({block:'start'});});
+</script>
 </body>
 </html>
