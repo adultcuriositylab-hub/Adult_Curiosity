@@ -37,6 +37,7 @@ input[type="date"]::-webkit-datetime-edit{min-width:0;padding:0}
 .intro p{font-size:clamp(12px,3.3vw,16px);line-height:1.9}
 .back{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 24px;border-radius:999px;background:#f4e1e0;font-weight:700;text-decoration:none}
 .time-option span{white-space:nowrap}
+.methods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;border:0;padding:0;margin:0;min-width:0}.methods .time-option span{font-size:13px;min-height:48px}
 </style>
 </head>
 <body>
@@ -48,8 +49,18 @@ input[type="date"]::-webkit-datetime-edit{min-width:0;padding:0}
 <p>恋愛やパートナーのこと。<br>あなたのペースでお話しください。</p>
 </header>
 <form id="reservation">
+<section class="step" aria-labelledby="method-heading">
+<h2 id="method-heading"><span class="number">01</span>ご相談の方法</h2>
+<fieldset class="methods"><legend class="sr-only">ご相談の方法を選んでください</legend>
+<label class="time-option"><input type="radio" name="method" value="対面" required><span>対面</span></label>
+<label class="time-option"><input type="radio" name="method" value="オンライン（Zoom）" required><span>オンライン（Zoom）</span></label>
+<label class="time-option"><input type="radio" name="method" value="チャット" required><span>チャット</span></label>
+<label class="time-option"><input type="radio" name="method" value="電話" required><span>電話</span></label>
+</fieldset>
+</section>
+
 <section class="step" aria-labelledby="date-heading">
-<h2 id="date-heading"><span class="number">01</span>ご希望の日にち</h2>
+<h2 id="date-heading"><span class="number">02</span>ご希望の日にち</h2>
 <label class="sr-only" for="date">ご希望の日にち（日本時間）</label>
 <div class="date-field">
 <svg class="date-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 2v6m10-6v6M3 11h18"/></svg>
@@ -59,7 +70,7 @@ input[type="date"]::-webkit-datetime-edit{min-width:0;padding:0}
 <p class="note">毎日10:00〜20:00開始の枠を受け付けます（日本時間）。実際の空き状況は予約サービス接続後に反映されます。</p>
 </section>
 <section class="step" aria-labelledby="time-heading">
-<h2 id="time-heading"><span class="number">02</span>ご希望の時間</h2>
+<h2 id="time-heading"><span class="number">03</span>ご希望の時間</h2>
 <fieldset class="times"><legend class="sr-only">開始時間を選んでください</legend>
 <label class="time-option"><input type="radio" name="time" value="10:00" required><span>10:00〜</span></label>
 <label class="time-option"><input type="radio" name="time" value="11:00" required><span>11:00〜</span></label>
@@ -76,7 +87,7 @@ input[type="date"]::-webkit-datetime-edit{min-width:0;padding:0}
 <p class="note">各枠60分です。20:00開始の枠は21:00に終了します。</p>
 </section>
 <section class="step" aria-labelledby="customer-heading">
-<h2 id="customer-heading"><span class="number">03</span>お客様情報</h2>
+<h2 id="customer-heading"><span class="number">04</span>お客様情報</h2>
 <label class="field-label" for="customer-name">お名前（ニックネーム可）</label>
 <input id="customer-name" name="name" type="text" autocomplete="name" maxlength="100" placeholder="例：はな" required>
 <label class="field-label" for="email">メールアドレス</label>
@@ -113,7 +124,7 @@ const selected=new Date(data.get('date')+'T'+data.get('time')+':00+09:00');
 if(selected<=new Date()){date.setCustomValidity('未来の日時を選んでください。');date.reportValidity();return;}
 date.setCustomValidity('');
 const summary=document.getElementById('summary');summary.replaceChildren();
-[['ご希望の日にち',data.get('date')],['ご希望の時間',data.get('time')+'〜（60分・日本時間）'],['お名前',data.get('name')],['メールアドレス',data.get('email')]].forEach(([label,value])=>{const row=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;row.append(dt,dd);summary.append(row);});
+[['ご相談の方法',data.get('method')],['ご希望の日にち',data.get('date')],['ご希望の時間',data.get('time')+'〜（60分・日本時間）'],['お名前',data.get('name')],['メールアドレス',data.get('email')]].forEach(([label,value])=>{const row=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;row.append(dt,dd);summary.append(row);});
 form.hidden=true;confirmation.hidden=false;confirmation.focus();confirmation.scrollIntoView({block:'start'});
 });
 date.addEventListener('input',()=>date.setCustomValidity(''));
