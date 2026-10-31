@@ -227,6 +227,14 @@ section[aria-labelledby="values-heading"] h3{font-size:clamp(13px,4vw,17px)!impo
  section[aria-labelledby="values-heading"] h3{font-size:clamp(12px,1.4vw,15px)!important}
 }
 </style>
+<style id="navigation-text-links">
+nav[aria-label="ページ内メニュー"]{gap:clamp(12px,4vw,28px);flex-wrap:nowrap}
+nav[aria-label="ページ内メニュー"] a{position:relative;padding:8px 4px 11px;border:0;border-radius:0;background:transparent;font-size:clamp(14px,4vw,16px)!important;font-weight:400!important;line-height:1.6}
+nav[aria-label="ページ内メニュー"] a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:#bd777b;transform:scaleX(0);transition:transform .18s ease}
+nav[aria-label="ページ内メニュー"] a:first-child::after,nav[aria-label="ページ内メニュー"] a:hover::after,nav[aria-label="ページ内メニュー"] a:focus-visible::after{transform:scaleX(1)}
+nav[aria-label="ページ内メニュー"] a:hover{background:transparent}
+@media(prefers-reduced-motion:reduce){nav[aria-label="ページ内メニュー"] a::after{transition:none}}
+</style>
 </head>
  <body data-template-id="__page-root" style="background: rgb(255, 250, 242);">
   <div class="site-shell">
@@ -235,7 +243,7 @@ section[aria-labelledby="values-heading"] h3{font-size:clamp(13px,4vw,17px)!impo
      <div data-template-id="logo-placeholder" class="canva-panel placeholder min-h-[55px] w-[105px] shrink-0 md:w-[145px]" style="font-size: 16px; background: rgb(255, 246, 238); color: rgb(115, 93, 86); font-weight: 400; font-style: normal;">ここにロゴを入れる</div><a href="#top" data-template-id="header-brand" class="canva-link font-bold tracking-tight text-[#493a35]" style="font-size: 17px; color: rgb(73, 58, 53); font-weight: 700; font-style: normal;">大人の自由研究所</a>
     </div>
     <nav aria-label="ページ内メニュー" class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-center">
-     <a href="#counseling" data-template-id="nav-counseling" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">個別カウンセリング <span aria-hidden="true">↓</span></a> <a href="#research" data-template-id="nav-research" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">自由研究 <span aria-hidden="true">↓</span></a> <a href="#questions" data-template-id="nav-questions" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">匿名の質問 <span aria-hidden="true">↓</span></a>
+     <a href="#counseling" data-template-id="nav-counseling" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">個別相談</a> <a href="#research" data-template-id="nav-research" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">自由研究</a> <a href="#questions" data-template-id="nav-questions" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">匿名質問</a>
     </nav>
    </header>
    <main id="top">
