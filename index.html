@@ -206,9 +206,9 @@
   
   
  <style id="draft-refinements">
-nav[aria-label="ページ内メニュー"]{gap:8px}
-nav[aria-label="ページ内メニュー"] a{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:44px;padding:7px 12px;border:1px solid #e8c9c8;border-radius:999px;background:#fff4ee;font-size:12px!important;font-weight:400!important;white-space:nowrap}
-nav[aria-label="ページ内メニュー"] a span{color:#a65d66;font-size:12px}
+nav[aria-label="ページ内メニュー"]{display:flex;flex-wrap:nowrap;width:100%;gap:6px;justify-content:center}
+nav[aria-label="ページ内メニュー"] a{display:inline-flex;align-items:center;justify-content:center;gap:3px;min-height:44px;padding:7px 4px;border:1px solid #e8c9c8;border-radius:999px;background:#fff4ee;font-size:clamp(12px,3.65vw,15px)!important;font-weight:400!important;white-space:nowrap}
+nav[aria-label="ページ内メニュー"] a span{color:#a65d66;font-size:9px}
 nav[aria-label="ページ内メニュー"] a:hover{background:#f4e1e0}
 [data-template-id="hero-kicker"]{text-align:center;font-size:13px!important;letter-spacing:.045em}
 #hero-heading{text-align:center;font-size:24px!important;line-height:1.75;letter-spacing:.01em;margin-bottom:22px}
@@ -218,13 +218,13 @@ nav[aria-label="ページ内メニュー"] a:hover{background:#f4e1e0}
 section[aria-labelledby="values-heading"]{padding-bottom:40px}
 #values-heading{font-size:20px!important;margin-bottom:14px}
 section[aria-labelledby="values-heading"] > div{grid-template-columns:1fr;gap:10px}
-section[aria-labelledby="values-heading"] article{padding:14px 16px;border-radius:18px;display:flex;align-items:center;gap:12px}
-section[aria-labelledby="values-heading"] .tiny-rule{margin:0;flex-shrink:0;width:16px;height:3px}
-section[aria-labelledby="values-heading"] h3{font-size:clamp(11px,3.35vw,15px)!important;line-height:1.6;white-space:nowrap}
+section[aria-labelledby="values-heading"] article{padding:14px 12px;border-radius:18px;display:flex;align-items:center;gap:8px}
+section[aria-labelledby="values-heading"] .tiny-rule{margin:0;flex-shrink:0;width:10px;height:3px}
+section[aria-labelledby="values-heading"] h3{font-size:clamp(13px,4vw,17px)!important;line-height:1.6;white-space:nowrap}
 @media(min-width:768px){
  section[aria-labelledby="values-heading"] > div{grid-template-columns:repeat(3,minmax(0,1fr))}
  section[aria-labelledby="values-heading"] article{padding:16px 10px;gap:7px}
- section[aria-labelledby="values-heading"] h3{font-size:clamp(10px,1.15vw,13px)!important}
+ section[aria-labelledby="values-heading"] h3{font-size:clamp(12px,1.4vw,15px)!important}
 }
 </style>
 </head>
