@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<base target="_top">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>カウンセリングのご予約｜大人の自由研究所</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#fffaf2;color:#493a35;font-family:"Zen Maru Gothic",sans-serif;font-size:14px;line-height:1.8}a{color:#854b53;text-underline-offset:4px}a:focus-visible{outline:3px solid #854b53;outline-offset:5px}.shell{width:min(100% - 32px,720px);margin:32px auto}.card{background:#fffdf5;border:1px solid #e8d8cf;border-radius:32px;padding:28px 22px}.intro{text-align:center}.brand{color:#b7787d;font-weight:700;text-decoration:none}.intro h1{font-size:clamp(22px,4vw,28px);line-height:1.5;margin:10px 0 12px}.intro p{color:#715f59;margin:0;font-size:clamp(14px,2.5vw,17px)}.notice{margin-top:26px;background:#f4e1e0;border-radius:20px;padding:20px}.notice h2{font-size:20px;margin:0 0 8px}.notice p{margin:0;color:#715f59}.step{border-top:1px solid #e8d8cf;margin-top:28px;padding-top:26px}.step h2{display:flex;gap:16px;align-items:baseline;font-size:clamp(17px,3vw,21px);margin:0 0 18px}.number{font-weight:500}.pending{display:flex;align-items:center;gap:12px;border:1px solid #dbd3cc;border-radius:999px;padding:15px 20px;color:#81776f;min-height:58px;background:#fffaf2}.pending svg{width:22px;height:22px;flex-shrink:0}.slots{display:grid;grid-template-columns:1fr 1fr;gap:12px}.slot{border:1px solid #e0d5d0;border-radius:18px;background:#fffdf9;text-align:center;padding:18px 8px;color:#81776f}.note{font-size:12px;color:#715f59;margin:14px 0 0}.privacy{background:#f6eae5;border-radius:22px;padding:20px}.privacy h3{font-size:16px;margin:0 0 12px}.privacy p{font-size:12px;color:#715f59;margin:0 0 12px}.privacy p:last-child{margin:0}.action{display:flex;align-items:center;justify-content:center;gap:12px;min-height:60px;margin-top:26px;padding:14px 20px;border-radius:999px;background:#bd777b;color:white;font-size:clamp(15px,2.5vw,18px);font-weight:700;text-align:center;text-decoration:none}.action:hover{background:#aa646c}.action-note{text-align:center;font-size:13px;color:#715f59;margin:12px 0 0}.back{display:inline-flex;align-items:center;min-height:44px;margin-top:18px;font-size:14px}footer{text-align:center;color:#715f59;font-size:12px;margin-top:20px}@media(min-width:600px){.shell{margin:48px auto}.card{padding:36px 32px}.step{margin-top:36px;padding-top:32px}.privacy{padding:24px}}
+
+input[type="date"],input[type="text"],input[type="email"]{display:block;width:100%;min-width:0;min-height:58px;padding:13px 20px;border:1px solid #dbd3cc;border-radius:999px;background:#fffaf2;color:#493a35;font:inherit}
+input:focus-visible,button:focus-visible{outline:3px solid #854b53;outline-offset:4px}.field-label{display:block;margin:18px 0 8px;font-weight:500}.times{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;border:0;padding:0;margin:0}.time-option{position:relative}.time-option input{position:absolute;opacity:0}.time-option span{display:flex;align-items:center;justify-content:center;border:1px solid #e0d5d0;border-radius:14px;background:#fffdf9;min-height:46px;font-size:14px}.time-option input:checked+span{background:#f4e1e0;border:2px solid #bd777b;font-weight:700}.time-option input:checked+span:before{content:"✓";margin-right:4px;color:#b7787d}.time-option input:focus-visible+span{outline:3px solid #854b53;outline-offset:3px}.consent{display:flex;align-items:flex-start;gap:12px}.consent input{width:22px;height:22px;flex-shrink:0;accent-color:#854b53;margin-top:5px}button.action{border:0;width:100%;font-family:inherit;cursor:pointer}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}#confirmation{margin-top:30px}#summary{margin:20px 0}#summary div{padding:14px 0;border-bottom:1px solid #e8d8cf}#summary dt{font-size:14px;color:#715f59}#summary dd{margin:4px 0 0;overflow-wrap:anywhere}[hidden]{display:none!important}
+
+form,.step,.times,.time-option{min-width:0}
+input[type="text"],input[type="email"]{font-size:16px;min-height:52px;padding:11px 16px}
+.date-field{position:relative;width:100%;min-width:0;border:1px solid #dbd3cc;border-radius:999px;background:#fffaf2;overflow:hidden}
+.date-field input[type="date"]{-webkit-appearance:none;appearance:none;display:block;box-sizing:border-box;width:100%;max-width:100%;min-width:0;height:52px;min-height:52px;border:0;border-radius:0;margin:0;padding:10px 16px;background:transparent;font-size:16px;text-align:left}
+input[type="date"]::-webkit-date-and-time-value{text-align:left;min-width:0}
+input[type="date"]::-webkit-datetime-edit{min-width:0;padding:0}
+.date-field:focus-within{outline:3px solid #854b53;outline-offset:3px}
+.date-field input:focus-visible{outline:none}
+#confirmation h2{font-size:20px}.consent{font-size:13px}
+
+.date-icon{position:absolute;left:17px;top:50%;transform:translateY(-50%);width:21px;height:21px;color:#b7787d;pointer-events:none}
+.date-field input[type="date"]{padding-left:48px;padding-right:14px;position:relative;z-index:1}
+.date-placeholder{position:absolute;left:48px;right:14px;top:50%;transform:translateY(-50%);color:#81776f;font-size:14px;pointer-events:none;white-space:nowrap}
+.date-field.has-date .date-placeholder{display:none}
+.date-field:not(.has-date) input::-webkit-datetime-edit{opacity:0}
+.date-field.has-date input::-webkit-datetime-edit{opacity:1}
+.date-field:not(.has-date) input{color:transparent}
+.date-field.has-date input{color:#493a35}
+.date-field input::-webkit-calendar-picker-indicator{opacity:.65}
+
+.intro p{font-size:clamp(12px,3.3vw,16px);line-height:1.9}
+.back{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 24px;border-radius:999px;background:#f4e1e0;font-weight:700;text-decoration:none}
+.time-option span{white-space:nowrap}
+.methods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;border:0;padding:0;margin:0;min-width:0}.methods .time-option span{font-size:13px;min-height:48px}
+textarea{display:block;width:100%;max-width:100%;min-width:0;min-height:120px;resize:vertical;padding:14px 16px;border:1px solid #dbd3cc;border-radius:18px;background:#fffaf2;color:#493a35;font:inherit;font-size:16px;line-height:1.7}textarea:focus-visible{outline:3px solid #854b53;outline-offset:4px}.optional{display:inline-block;font-size:11px;color:#854b53;background:#f4e1e0;border-radius:6px;padding:1px 7px;font-weight:400;white-space:nowrap}#summary dd{white-space:pre-wrap}
+
+.time-option input:disabled+span{opacity:.45;cursor:not-allowed;background:#f0ece6}
+button:disabled{opacity:.5;cursor:not-allowed}
+.test-banner{font-size:12px;background:#f4e1e0;padding:12px 14px;border-radius:14px;color:#715f59;margin-top:20px}
+.small-button{font:inherit;font-size:13px;border:1px solid #d5bfb8;border-radius:999px;padding:8px 14px;background:#fffaf2;color:#854b53;cursor:pointer;margin-top:10px}
+#availability-status[data-error="true"],#send-status[data-error="true"]{color:#9b3346}
+#accepted{margin-top:30px}#accepted h2{font-size:20px;margin-bottom:16px}#receipt{overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<div class="shell">
+<main class="card">
+<header class="intro">
+<a class="brand" href="<?= siteUrl ?>">大人の自由研究所</a>
+<h1>カウンセリングのご予約</h1>
+<p>恋愛やパートナーのこと。<br>あなたのペースでお話しください。</p>
+</header>
+<p class="test-banner">所有者限定テスト版です。送信するとカレンダーに仮予約が登録され、運営へ通知メールを送ります。</p>
+<form id="reservation">
+<section class="step" aria-labelledby="method-heading">
+<h2 id="method-heading"><span class="number">01</span>ご相談の方法</h2>
+<fieldset class="methods"><legend class="sr-only">ご相談の方法を選んでください</legend>
+<label class="time-option"><input type="radio" name="method" value="対面" required><span>対面</span></label>
+<label class="time-option"><input type="radio" name="method" value="オンライン" required><span>オンライン</span></label>
+<label class="time-option"><input type="radio" name="method" value="チャット" required><span>チャット</span></label>
+<label class="time-option"><input type="radio" name="method" value="電話" required><span>電話</span></label>
+</fieldset>
+</section>
+
+<section class="step" aria-labelledby="date-heading">
+<h2 id="date-heading"><span class="number">02</span>ご希望の日にち</h2>
+<label class="sr-only" for="date">ご希望の日にち（日本時間）</label>
+<div class="date-field">
+<svg class="date-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 2v6m10-6v6M3 11h18"/></svg>
+<input id="date" name="date" type="date" required>
+<span class="date-placeholder" aria-hidden="true">日付を選択してください</span>
+</div>
+<p class="note">毎日10:00〜20:00開始・各50分<br><span style="white-space:nowrap">（日本時間）</span><br>空き状況は日付を選ぶと表示されます。</p>
+</section>
+<section class="step" aria-labelledby="time-heading">
+<h2 id="time-heading"><span class="number">03</span>ご希望の時間</h2>
+<fieldset class="times"><legend class="sr-only">開始時間を選んでください</legend>
+<label class="time-option"><input type="radio" name="time" disabled value="10:00" required><span>10:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" disabled value="11:00" required><span>11:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" disabled value="12:00" required><span>12:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" disabled value="13:00" required><span>13:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" disabled value="14:00" required><span>14:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" disabled value="15:00" required><span>15:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" disabled value="16:00" required><span>16:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" disabled value="17:00" required><span>17:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" disabled value="18:00" required><span>18:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" disabled value="19:00" required><span>19:00〜</span></label>
+<label class="time-option"><input type="radio" name="time" disabled value="20:00" required><span>20:00〜</span></label>
+</fieldset>
+<p id="availability-status" class="note" role="status" aria-live="polite">日付を選んでください。</p>
+<button id="reload-slots" class="small-button" type="button" hidden>空き状況を再取得する</button>
+<p class="note">各枠50分です。20:00開始の枠は20:50に終了します。</p>
+</section>
+<section class="step" aria-labelledby="customer-heading">
+<h2 id="customer-heading"><span class="number">04</span>お客様情報</h2>
+<label class="field-label" for="customer-name">お名前（ニックネーム可）</label>
+<input id="customer-name" name="name" type="text" autocomplete="name" maxlength="100" placeholder="例：はな" required>
+<label class="field-label" for="email">メールアドレス</label>
+<input id="email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="example@email.com" required>
+<label class="field-label" for="advance-message">事前に伝えておきたい内容があれば、ご記入ください。 <span class="optional">任意</span></label>
+<textarea id="advance-message" name="message" rows="4" maxlength="2000" placeholder="ご質問やご希望など、ご自由にお書きください。"></textarea>
+<div class="privacy" style="margin-top:24px">
+<h3>プライバシーについて</h3>
+<p>ご相談内容や個人情報は大切に取り扱います。個別の相談内容を無断で公開することはありません。</p>
+<label class="consent"><input type="checkbox" name="privacy" required><span><a href="<?= siteUrl ?>privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>を確認し、同意します</span></label>
+</div>
+<button id="review" class="action" type="submit" disabled>予約内容を確認する <span aria-hidden="true">→</span></button>
+<p class="action-note">お申し込みは仮予約です。運営からの連絡をもって予約確定となります。</p>
+</section>
+</form>
+<section id="confirmation" hidden aria-labelledby="confirmation-heading" tabindex="-1">
+<h2 id="confirmation-heading">予約内容の確認</h2>
+<dl id="summary"></dl>
+<div class="notice"><h3 style="margin:0 0 8px">まだ送信されていません</h3><p>内容を確認し、「仮予約を申し込む」を押してください。予約確定のご連絡は運営から手動で行います。</p></div>
+<button id="send" class="action" type="button">仮予約を申し込む</button>
+<p id="send-status" class="note" role="status" aria-live="polite"></p>
+<button id="edit" class="action" type="button">入力内容を修正する</button>
+<p class="action-note">ご相談は <a href="mailto:adultcuriositylab@gmail.com">メール</a>でお問い合わせください。</p>
+</section>
+<section id="accepted" hidden tabindex="-1" aria-labelledby="accepted-heading"><h2 id="accepted-heading">仮予約を受け付けました</h2><p>予約はまだ確定していません。運営からの連絡をお待ちください。</p><p id="receipt" class="note"></p><p id="notification-note" class="note"></p><p class="note">テスト後は、カレンダーの「【仮予約・テスト】」の予定を確認してください。</p></section>
+</main>
+<a class="back" href="<?= siteUrl ?>">トップページへ戻る</a>
+<footer>© 大人の自由研究所</footer>
+</div>
+<script>
+(() => {
+  const form = document.getElementById('reservation');
+  const date = document.getElementById('date');
+  const timeInputs = [...form.querySelectorAll('input[name="time"]')];
+  const status = document.getElementById('availability-status');
+  const reload = document.getElementById('reload-slots');
+  const review = document.getElementById('review');
+  const confirmation = document.getElementById('confirmation');
+  const send = document.getElementById('send');
+  const edit = document.getElementById('edit');
+  const sendStatus = document.getElementById('send-status');
+  const accepted = document.getElementById('accepted');
+  let sequence = 0, readyDate = '', snapshot = null, pending = null;
+  let lastFingerprint = '', requestId = '', sending = false;
+  const jst = value => new Intl.DateTimeFormat('sv-SE', {
+    timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit'
+  }).format(value);
+  const today = jst(new Date());
+  date.min = today;
+  date.max = jst(new Date(new Date(today + 'T00:00:00+09:00').getTime() + 90 * 86400000));
+
+  function rpc(name, arg, timeout = 30000) {
+    return new Promise((resolve, reject) => {
+      if (!window.google || !google.script || !google.script.run) {
+        reject(new Error('OPEN_GAS_PAGE')); return;
+      }
+      const timer = setTimeout(() => reject(new Error('TIMEOUT')), timeout);
+      const runner = google.script.run
+        .withSuccessHandler(value => { clearTimeout(timer); resolve(value); })
+        .withFailureHandler(() => { clearTimeout(timer); reject(new Error('CONNECTION_ERROR')); });
+      runner[name](arg);
+    });
+  }
+
+  function notice(node, text, error = false) {
+    node.textContent = text;
+    node.dataset.error = String(error);
+  }
+
+  function resetTimes() {
+    readyDate = '';
+    timeInputs.forEach(input => { input.disabled = true; input.checked = false; });
+    review.disabled = true;
+  }
+
+  async function loadSlots() {
+    const current = ++sequence;
+    const selectedDate = date.value;
+    resetTimes(); reload.hidden = true;
+    if (!selectedDate) { notice(status, '日付を選んでください。'); return; }
+    if (selectedDate < date.min || selectedDate > date.max) {
+      notice(status, '本日から90日先までの日付を選んでください。', true); return;
+    }
+    notice(status, '空き状況を確認しています…');
+    try {
+      const result = await rpc('getAvailability', selectedDate);
+      if (current !== sequence || date.value !== selectedDate) return;
+      if (!result || result.success !== true || result.date !== selectedDate ||
+          !Array.isArray(result.slots) || result.slots.length !== 11) throw new Error('BAD_RESPONSE');
+      const slots = new Map();
+      result.slots.forEach(slot => {
+        if (!slot || !/^(1[0-9]|20):00$/.test(slot.time) || typeof slot.available !== 'boolean' || slots.has(slot.time)) throw new Error('BAD_RESPONSE');
+        slots.set(slot.time, slot.available);
+      });
+      let count = 0;
+      timeInputs.forEach(input => {
+        const future = new Date(selectedDate + 'T' + input.value + ':00+09:00').getTime() > Date.now();
+        input.disabled = slots.get(input.value) !== true || !future;
+        input.setAttribute('aria-label', input.value + (input.disabled ? ' 予約不可' : ' 予約可能'));
+        if (!input.disabled) count++;
+      });
+      readyDate = selectedDate;
+      review.disabled = count === 0;
+      notice(status, count ? 'ご希望の時間を選んでください。薄い表示の枠は予約できません。' : 'この日は予約できる時間がありません。別の日を選んでください。');
+      reload.hidden = false;
+    } catch (error) {
+      if (current !== sequence || date.value !== selectedDate) return;
+      resetTimes(); reload.hidden = false;
+      notice(status, error.message === 'OPEN_GAS_PAGE'
+        ? 'Apps Scriptのテスト用URLでこのページを開いてください。'
+        : '空き状況を取得できませんでした。「再取得する」を押してください。', true);
+    }
+  }
+
+  function uuid() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    const bytes = new Uint8Array(16); crypto.getRandomValues(bytes);
+    bytes[6] = (bytes[6] & 15) | 64; bytes[8] = (bytes[8] & 63) | 128;
+    const hex = [...bytes].map(n => n.toString(16).padStart(2, '0')).join('');
+    return hex.slice(0,8) + '-' + hex.slice(8,12) + '-' + hex.slice(12,16) + '-' + hex.slice(16,20) + '-' + hex.slice(20);
+  }
+
+  date.addEventListener('input', () => {
+    date.setCustomValidity('');
+    date.parentElement.classList.toggle('has-date', !!date.value);
+    loadSlots();
+  });
+  date.parentElement.classList.toggle('has-date', !!date.value);
+  reload.addEventListener('click', loadSlots);
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    if (!form.reportValidity() || readyDate !== date.value) return;
+    const data = new FormData(form);
+    const time = data.get('time');
+    if (!timeInputs.some(input => input.value === time && input.checked && !input.disabled)) return;
+    if (new Date(date.value + 'T' + time + ':00+09:00').getTime() <= Date.now()) {
+      loadSlots(); notice(status, '選んだ開始時間を過ぎました。別の時間を選んでください。', true); return;
+    }
+    snapshot = {
+      name: String(data.get('name') || '').trim(), email: String(data.get('email') || '').trim(),
+      method: data.get('method'), note: String(data.get('message') || '').trim(),
+      date: date.value, time: time, privacy: data.get('privacy') === 'on'
+    };
+    const fingerprint = JSON.stringify(snapshot);
+    if (fingerprint !== lastFingerprint) { requestId = uuid(); lastFingerprint = fingerprint; }
+    snapshot.requestId = requestId;
+    const summary = document.getElementById('summary'); summary.replaceChildren();
+    [['ご相談の方法', snapshot.method], ['ご希望の日にち', snapshot.date],
+      ['ご希望の時間', snapshot.time + '〜（50分・日本時間）'], ['お名前', snapshot.name],
+      ['メールアドレス', snapshot.email], ['事前に伝えておきたい内容', snapshot.note || '記入なし']]
+      .forEach(([label, value]) => {
+        const row = document.createElement('div'), dt = document.createElement('dt'), dd = document.createElement('dd');
+        dt.textContent = label; dd.textContent = value; row.append(dt, dd); summary.append(row);
+      });
+    notice(sendStatus, ''); send.disabled = false; edit.disabled = false;
+    send.textContent = '仮予約を申し込む';
+    form.hidden = true; confirmation.hidden = false;
+    confirmation.focus(); confirmation.scrollIntoView({block: 'start'});
+  });
+
+  edit.addEventListener('click', () => {
+    if (sending || pending) return;
+    confirmation.hidden = true; form.hidden = false; loadSlots(); date.focus();
+  });
+
+  send.addEventListener('click', async () => {
+    if (sending || !snapshot) return;
+    sending = true; send.disabled = true; edit.disabled = true;
+    pending = pending || {...snapshot};
+    notice(sendStatus, '受付を確認しています。ページを閉じずにお待ちください。');
+    try {
+      const result = await rpc('submitReservation', pending, 45000);
+      if (result && result.success === true && result.code === 'ACCEPTED' && result.reference === pending.requestId) {
+        document.getElementById('receipt').textContent = '受付番号：' + result.reference;
+        document.getElementById('notification-note').textContent = result.notification === 'sent'
+          ? '運営への通知メールを送信しました。お客様宛ての自動返信はありません。'
+          : 'カレンダーへの登録は完了しました。運営への通知メールは失敗、または送信状況を確認できません。カレンダーを確認してください。';
+        pending = null; confirmation.hidden = true; accepted.hidden = false;
+        accepted.focus(); accepted.scrollIntoView({block: 'start'}); return;
+      }
+      const known = result && result.success === false && ['CONFLICT','INVALID_INPUT','BUSY'].includes(result.code);
+      if (known) {
+        pending = null;
+        notice(sendStatus, result.message, true);
+        edit.disabled = false;
+        send.disabled = result.code !== 'BUSY';
+        if (result.code === 'BUSY') send.textContent = '同じ内容で再度申し込む';
+        return;
+      }
+      throw new Error('UNKNOWN_RESULT');
+    } catch (_) {
+      notice(sendStatus, '受付結果を確認できません。この画面を閉じずに「同じ申し込みの結果を再確認する」を押してください。重複を防ぐため同じ受付番号で確認します。', true);
+      send.textContent = '同じ申し込みの結果を再確認する';
+      send.disabled = false;
+      // 結果不明時は内容を変えて再送させません。
+    } finally { sending = false; }
+  });
+
+  if (date.value) loadSlots();
+})();
+
+</script>
+</body>
+</html>
