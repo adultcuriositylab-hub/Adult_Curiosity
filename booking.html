@@ -45,7 +45,7 @@ textarea{display:block;width:100%;max-width:100%;min-width:0;min-height:120px;re
 <div class="shell">
 <main class="card">
 <header class="intro">
-<a class="brand" href="/">大人の自由研究所</a>
+<a class="brand" href="index.html">大人の自由研究所</a>
 <h1>カウンセリングのご予約</h1>
 <p>恋愛やパートナーのこと。<br>あなたのペースでお話しください。</p>
 </header>
@@ -54,7 +54,7 @@ textarea{display:block;width:100%;max-width:100%;min-width:0;min-height:120px;re
 <h2 id="method-heading"><span class="number">01</span>ご相談の方法</h2>
 <fieldset class="methods"><legend class="sr-only">ご相談の方法を選んでください</legend>
 <label class="time-option"><input type="radio" name="method" value="対面" required><span>対面</span></label>
-<label class="time-option"><input type="radio" name="method" value="オンライン（Zoom）" required><span>オンライン（Zoom）</span></label>
+<label class="time-option"><input type="radio" name="method" value="オンライン" required><span>オンライン</span></label>
 <label class="time-option"><input type="radio" name="method" value="チャット" required><span>チャット</span></label>
 <label class="time-option"><input type="radio" name="method" value="電話" required><span>電話</span></label>
 </fieldset>
@@ -68,7 +68,7 @@ textarea{display:block;width:100%;max-width:100%;min-width:0;min-height:120px;re
 <input id="date" name="date" type="date" required>
 <span class="date-placeholder" aria-hidden="true">日付を選択してください</span>
 </div>
-<p class="note">毎日10:00〜20:00開始・各60分<br><span style="white-space:nowrap">（日本時間）</span><br>空き状況は予約サービス接続後に反映されます。</p>
+<p class="note">毎日10:00〜20:00開始・各50分<br><span style="white-space:nowrap">（日本時間）</span><br>空き状況は予約サービス接続後に反映されます。</p>
 </section>
 <section class="step" aria-labelledby="time-heading">
 <h2 id="time-heading"><span class="number">03</span>ご希望の時間</h2>
@@ -85,7 +85,7 @@ textarea{display:block;width:100%;max-width:100%;min-width:0;min-height:120px;re
 <label class="time-option"><input type="radio" name="time" value="19:00" required><span>19:00〜</span></label>
 <label class="time-option"><input type="radio" name="time" value="20:00" required><span>20:00〜</span></label>
 </fieldset>
-<p class="note">各枠60分です。20:00開始の枠は21:00に終了します。</p>
+<p class="note">各枠50分です。20:00開始の枠は20:50に終了します。</p>
 </section>
 <section class="step" aria-labelledby="customer-heading">
 <h2 id="customer-heading"><span class="number">04</span>お客様情報</h2>
@@ -98,7 +98,7 @@ textarea{display:block;width:100%;max-width:100%;min-width:0;min-height:120px;re
 <div class="privacy" style="margin-top:24px">
 <h3>プライバシーについて</h3>
 <p>ご相談内容や個人情報は大切に取り扱います。個別の相談内容を無断で公開することはありません。</p>
-<label class="consent"><input type="checkbox" name="privacy" required><span><a href="/privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>を確認し、同意します</span></label>
+<label class="consent"><input type="checkbox" name="privacy" required><span><a href="privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>を確認し、同意します</span></label>
 </div>
 <button class="action" type="submit">予約内容を確認する <span aria-hidden="true">→</span></button>
 <p class="action-note">現在は入力・確認までご利用いただけます。空き状況との連動・予約確定機能は接続前です。</p>
@@ -112,7 +112,7 @@ textarea{display:block;width:100%;max-width:100%;min-width:0;min-height:120px;re
 <p class="action-note">ご相談は <a href="mailto:adultcuriositylab@gmail.com">メール</a>でお問い合わせください。</p>
 </section>
 </main>
-<a class="back" href="/">トップページへ戻る</a>
+<a class="back" href="index.html">トップページへ戻る</a>
 <footer>© 大人の自由研究所</footer>
 </div>
 <script>
@@ -127,7 +127,7 @@ const selected=new Date(data.get('date')+'T'+data.get('time')+':00+09:00');
 if(selected<=new Date()){date.setCustomValidity('未来の日時を選んでください。');date.reportValidity();return;}
 date.setCustomValidity('');
 const summary=document.getElementById('summary');summary.replaceChildren();
-[['ご相談の方法',data.get('method')],['ご希望の日にち',data.get('date')],['ご希望の時間',data.get('time')+'〜（60分・日本時間）'],['お名前',data.get('name')],['メールアドレス',data.get('email')],['事前に伝えておきたい内容',data.get('message')?.trim() || '記入なし']].forEach(([label,value])=>{const row=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;row.append(dt,dd);summary.append(row);});
+[['ご相談の方法',data.get('method')],['ご希望の日にち',data.get('date')],['ご希望の時間',data.get('time')+'〜（50分・日本時間）'],['お名前',data.get('name')],['メールアドレス',data.get('email')],['事前に伝えておきたい内容',data.get('message')?.trim() || '記入なし']].forEach(([label,value])=>{const row=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=label;dd.textContent=value;row.append(dt,dd);summary.append(row);});
 form.hidden=true;confirmation.hidden=false;confirmation.focus();confirmation.scrollIntoView({block:'start'});
 });
 date.addEventListener('input',()=>date.setCustomValidity(''));
