@@ -235,6 +235,10 @@ nav[aria-label="ページ内メニュー"] a[aria-current="location"]::after{tra
 nav[aria-label="ページ内メニュー"] a:hover{background:transparent}
 @media(prefers-reduced-motion:reduce){nav[aria-label="ページ内メニュー"] a::after{transition:none}}
 </style>
+<style id="navigation-focus-fallback">
+nav[aria-label="ページ内メニュー"]:has(a:focus) a::after{transform:scaleX(0)}
+nav[aria-label="ページ内メニュー"]:has(a:focus) a:focus::after{transform:scaleX(1)}
+</style>
 </head>
  <body data-template-id="__page-root" style="background: rgb(255, 250, 242);">
   <div class="site-shell">
@@ -243,7 +247,7 @@ nav[aria-label="ページ内メニュー"] a:hover{background:transparent}
      <div data-template-id="logo-placeholder" class="canva-panel placeholder min-h-[55px] w-[105px] shrink-0 md:w-[145px]" style="font-size: 16px; background: rgb(255, 246, 238); color: rgb(115, 93, 86); font-weight: 400; font-style: normal;">ここにロゴを入れる</div><a href="#top" data-template-id="header-brand" class="canva-link font-bold tracking-tight text-[#493a35]" style="font-size: 17px; color: rgb(73, 58, 53); font-weight: 700; font-style: normal;">大人の自由研究所</a>
     </div>
     <nav aria-label="ページ内メニュー" class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-center">
-     <a href="#counseling" data-template-id="nav-counseling" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">個別相談</a> <a href="#research" data-template-id="nav-research" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">自由研究</a> <a href="#questions" data-template-id="nav-questions" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">匿名質問</a>
+     <a href="#counseling" data-template-id="nav-counseling" aria-current="location" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">個別相談</a> <a href="#research" data-template-id="nav-research" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">自由研究</a> <a href="#questions" data-template-id="nav-questions" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">匿名質問</a>
     </nav>
    </header>
    <main id="top">
@@ -423,7 +427,7 @@ nav[aria-label="ページ内メニュー"] a:hover{background:transparent}
   if (link === selected) link.setAttribute('aria-current', 'location');
   else link.removeAttribute('aria-current');
  });
- const fromHash = () => select(links.find(link => link.getAttribute('href') === location.hash));
+ const fromHash = () => select(links.find(link => link.getAttribute('href') === location.hash) || links[0]);
  links.forEach(link => link.addEventListener('click', () => select(link)));
  fromHash();
  window.addEventListener('hashchange', fromHash);
