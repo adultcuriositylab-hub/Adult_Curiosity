@@ -231,7 +231,7 @@ section[aria-labelledby="values-heading"] h3{font-size:clamp(13px,4vw,17px)!impo
 nav[aria-label="ページ内メニュー"]{gap:clamp(12px,4vw,28px);flex-wrap:nowrap}
 nav[aria-label="ページ内メニュー"] a{position:relative;padding:8px 4px 11px;border:0;border-radius:0;background:transparent;font-size:clamp(14px,4vw,16px)!important;font-weight:400!important;line-height:1.6}
 nav[aria-label="ページ内メニュー"] a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:#bd777b;transform:scaleX(0);transition:transform .18s ease}
-nav[aria-label="ページ内メニュー"] a:first-child::after,nav[aria-label="ページ内メニュー"] a:hover::after,nav[aria-label="ページ内メニュー"] a:focus-visible::after{transform:scaleX(1)}
+nav[aria-label="ページ内メニュー"] a[aria-current="location"]::after{transform:scaleX(1)}
 nav[aria-label="ページ内メニュー"] a:hover{background:transparent}
 @media(prefers-reduced-motion:reduce){nav[aria-label="ページ内メニュー"] a::after{transition:none}}
 </style>
@@ -416,4 +416,17 @@ nav[aria-label="ページ内メニュー"] a:hover{background:transparent}
    });
   </script>
  
+<script>
+(() => {
+ const links = [...document.querySelectorAll('nav[aria-label="ページ内メニュー"] a')];
+ const select = selected => links.forEach(link => {
+  if (link === selected) link.setAttribute('aria-current', 'location');
+  else link.removeAttribute('aria-current');
+ });
+ const fromHash = () => select(links.find(link => link.getAttribute('href') === location.hash));
+ links.forEach(link => link.addEventListener('click', () => select(link)));
+ fromHash();
+ window.addEventListener('hashchange', fromHash);
+})();
+</script>
 </body></html>
