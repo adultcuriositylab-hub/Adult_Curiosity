@@ -90,7 +90,118 @@
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js" type="text/javascript"></script>
-  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+<style id="local-layout-css">
+*,::before,::after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}h1,h2,h3,h4,p,ol,ul,dl,dd{margin:0}ol,ul{list-style:none;padding:0}a{color:inherit;text-decoration:inherit}button,input,textarea{font:inherit}img,svg{display:block;vertical-align:middle}img{max-width:100%;height:auto}
+.bg-\[\#bd777b\]{background-color:#bd777b}
+.bg-\[\#ead8d0\]{background-color:#ead8d0}
+.bg-\[\#f8eae6\]{background-color:#f8eae6}
+.bg-\[\#fff4ec\]{background-color:#fff4ec}
+.bg-\[\#fff6ee\]{background-color:#fff6ee}
+.bg-\[\#fffaf2\]{background-color:#fffaf2}
+.bg-\[\#fffdf9\]{background-color:#fffdf9}
+.divide-\[\#e8d8cf\] > :not([hidden]) ~ :not([hidden]){border-color:#e8d8cf}
+.divide-y > :not([hidden]) ~ :not([hidden]){border-top-width:1px}
+.flex{display:flex}
+.flex-col{flex-direction:column}
+.flex-wrap{flex-wrap:wrap}
+.font-bold{font-weight:700}
+.gap-10{gap:2.5rem}
+.gap-2{gap:0.5rem}
+.gap-3{gap:0.75rem}
+.gap-4{gap:1.0rem}
+.gap-5{gap:1.25rem}
+.gap-7{gap:1.75rem}
+.gap-8{gap:2.0rem}
+.gap-x-3{column-gap:0.75rem}
+.gap-x-5{column-gap:1.25rem}
+.gap-y-2{row-gap:0.5rem}
+.grid{display:grid}
+.grid-cols-\[minmax\(0\,1fr\)_auto\]{grid-template-columns:minmax(0,1fr) auto}
+.inline-flex{display:inline-flex}
+.items-center{align-items:center}
+.items-start{align-items:flex-start}
+.justify-between{justify-content:space-between}
+.justify-center{justify-content:center}
+.leading-\[2\]{line-height:2}
+.leading-relaxed{line-height:1.625}
+.m-0{margin:0.0rem}
+.max-w-\[570px\]{max-width:570px}
+.max-w-\[690px\]{max-width:690px}
+.max-w-\[720px\]{max-width:720px}
+.max-w-full{max-width:100%}
+.mb-1{margin-bottom:0.25rem}
+.mb-3{margin-bottom:0.75rem}
+.mb-4{margin-bottom:1.0rem}
+.mb-5{margin-bottom:1.25rem}
+.mb-6{margin-bottom:1.5rem}
+.min-h-\[42px\]{min-height:42px}
+.min-h-\[44px\]{min-height:44px}
+.min-h-\[55px\]{min-height:55px}
+.min-h-\[76px\]{min-height:76px}
+.min-w-0{min-width:0}
+.mt-3{margin-top:0.75rem}
+.mt-4{margin-top:1.0rem}
+.mt-5{margin-top:1.25rem}
+.mt-8{margin-top:2.0rem}
+.mx-auto{margin-left:auto;margin-right:auto}
+.overflow-hidden{overflow:hidden}
+.p-4{padding:1.0rem}
+.p-6{padding:1.5rem}
+.p-7{padding:1.75rem}
+.pb-16{padding-bottom:4.0rem}
+.pb-2{padding-bottom:0.5rem}
+.pb-20{padding-bottom:5.0rem}
+.pt-1{padding-top:0.25rem}
+.pt-5{padding-top:1.25rem}
+.pt-8{padding-top:2.0rem}
+.px-2{padding-left:0.5rem;padding-right:0.5rem}
+.px-5{padding-left:1.25rem;padding-right:1.25rem}
+.px-6{padding-left:1.5rem;padding-right:1.5rem}
+.py-10{padding-top:2.5rem;padding-bottom:2.5rem}
+.py-16{padding-top:4.0rem;padding-bottom:4.0rem}
+.py-4{padding-top:1.0rem;padding-bottom:1.0rem}
+.py-5{padding-top:1.25rem;padding-bottom:1.25rem}
+.py-7{padding-top:1.75rem;padding-bottom:1.75rem}
+.relative{position:relative}
+.shrink-0{flex-shrink:0}
+.space-y-8 > :not([hidden]) ~ :not([hidden]){margin-top:2rem}
+.text-\[\#493a35\]{color:#493a35}
+.text-\[\#604e49\]{color:#604e49}
+.text-\[\#715f59\]{color:#715f59}
+.text-\[\#75434b\]{color:#75434b}
+.text-\[\#a65d66\]{color:#a65d66}
+.text-center{text-align:center}
+.text-white{color:#fff}
+.tracking-tight{letter-spacing:-.025em}
+.underline{text-decoration-line:underline}
+.underline-offset-4{text-underline-offset:4px}
+.w-\[105px\]{width:105px}
+.w-full{width:100%}
+.whitespace-nowrap{white-space:nowrap}
+@media(min-width:640px){.sm\:flex-row{flex-direction:row}}
+@media(min-width:640px){.sm\:gap-6{gap:1.5rem}}
+@media(min-width:640px){.sm\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:640px){.sm\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:640px){.sm\:p-8{padding:2.0rem}}
+@media(min-width:640px){.sm\:py-6{padding-top:1.5rem;padding-bottom:1.5rem}}
+@media(min-width:768px){.md\:flex-row{flex-direction:row}}
+@media(min-width:768px){.md\:flex-wrap{flex-wrap:wrap}}
+@media(min-width:768px){.md\:gap-14{gap:3.5rem}}
+@media(min-width:768px){.md\:gap-16{gap:4.0rem}}
+@media(min-width:768px){.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:768px){.md\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:768px){.md\:grid-cols-\[\.85fr_1\.15fr\]{grid-template-columns:.85fr 1.15fr}}
+@media(min-width:768px){.md\:grid-cols-\[1\.1fr_\.9fr\]{grid-template-columns:1.1fr .9fr}}
+@media(min-width:768px){.md\:grid-cols-\[1\.2fr_\.8fr\]{grid-template-columns:1.2fr .8fr}}
+@media(min-width:768px){.md\:items-end{align-items:flex-end}}
+@media(min-width:768px){.md\:justify-between{justify-content:space-between}}
+@media(min-width:768px){.md\:p-10{padding:2.5rem}}
+@media(min-width:768px){.md\:pb-24{padding-bottom:6.0rem}}
+@media(min-width:768px){.md\:pt-16{padding-top:4.0rem}}
+@media(min-width:768px){.md\:py-24{padding-top:6.0rem;padding-bottom:6.0rem}}
+@media(min-width:768px){.md\:py-7{padding-top:1.75rem;padding-bottom:1.75rem}}
+@media(min-width:768px){.md\:w-\[145px\]{width:145px}}
+</style>
   
   
   
@@ -192,7 +303,7 @@
         <dd class="m-0 whitespace-nowrap text-[#715f59]" style="font-size: clamp(13px, 2.5vw, 21px);">個別にご相談</dd>
        </div>
       </dl>
-      <a href="/booking.html" data-template-id="inquiry-button" class="canva-button pill-link w-full bg-[#bd777b] text-white" style="background: rgb(189, 119, 123); color: #fff; font-weight: 700; font-size: clamp(16px, 2.8vw, 24px); min-height: 60px;">お申し込み・お問い合わせ</a>
+      <a href="booking.html" data-template-id="inquiry-button" class="canva-button pill-link w-full bg-[#bd777b] text-white" style="background: rgb(189, 119, 123); color: #fff; font-weight: 700; font-size: clamp(16px, 2.8vw, 24px); min-height: 60px;">お申し込み・お問い合わせ</a>
       <p data-template-id="inquiry-link-status" class="canva-text mt-4 text-center text-[#715f59]" style="font-size: clamp(12px, 2.2vw, 18px);">お問い合わせはメールで受け付けています。</p>
      </div>
     </section>
@@ -255,7 +366,7 @@
       <p data-template-id="footer-copyright" class="canva-text mt-5 text-[#715f59]" style="font-size: 12px; color: rgb(113, 95, 89); font-weight: 400; font-style: normal;">© 大人の自由研究所</p>
      </div>
      <nav aria-label="フッターリンク" class="flex flex-col items-start gap-2 sm:flex-row sm:gap-6">
-      <a href="/privacy.html" data-template-id="footer-privacy" class="canva-link inline-flex min-h-[44px] items-center text-[#493a35] underline underline-offset-4" style="color: rgb(73, 58, 53); font-weight: 400; font-style: normal; font-size: 16px;">プライバシーについて</a> <a href="mailto:adultcuriositylab@gmail.com" data-template-id="footer-contact" class="canva-link inline-flex min-h-[44px] items-center text-[#493a35] underline underline-offset-4" style="color: rgb(73, 58, 53); font-weight: 400; font-style: normal; font-size: 16px;">お問い合わせ</a>
+      <a href="privacy.html" data-template-id="footer-privacy" class="canva-link inline-flex min-h-[44px] items-center text-[#493a35] underline underline-offset-4" style="color: rgb(73, 58, 53); font-weight: 400; font-style: normal; font-size: 16px;">プライバシーについて</a> <a href="mailto:adultcuriositylab@gmail.com" data-template-id="footer-contact" class="canva-link inline-flex min-h-[44px] items-center text-[#493a35] underline underline-offset-4" style="color: rgb(73, 58, 53); font-weight: 400; font-style: normal; font-size: 16px;">お問い合わせ</a>
      </nav>
     </div>
    </footer>
