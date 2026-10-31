@@ -205,7 +205,29 @@
   
   
   
- </head>
+ <style id="draft-refinements">
+nav[aria-label="ページ内メニュー"]{gap:8px}
+nav[aria-label="ページ内メニュー"] a{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:44px;padding:7px 12px;border:1px solid #e8c9c8;border-radius:999px;background:#fff4ee;font-size:12px!important;font-weight:400!important;white-space:nowrap}
+nav[aria-label="ページ内メニュー"] a span{color:#a65d66;font-size:12px}
+nav[aria-label="ページ内メニュー"] a:hover{background:#f4e1e0}
+[data-template-id="hero-kicker"]{text-align:center;font-size:13px!important;letter-spacing:.045em}
+#hero-heading{text-align:center;font-size:24px!important;line-height:1.75;letter-spacing:.01em;margin-bottom:22px}
+.hero-keyword,.hero-tagline{display:block}
+.hero-keyword{font-size:clamp(23px,5.6vw,30px)}
+.hero-tagline{font-size:clamp(15px,3.8vw,21px)}
+section[aria-labelledby="values-heading"]{padding-bottom:40px}
+#values-heading{font-size:20px!important;margin-bottom:14px}
+section[aria-labelledby="values-heading"] > div{grid-template-columns:1fr;gap:10px}
+section[aria-labelledby="values-heading"] article{padding:14px 16px;border-radius:18px;display:flex;align-items:center;gap:12px}
+section[aria-labelledby="values-heading"] .tiny-rule{margin:0;flex-shrink:0;width:16px;height:3px}
+section[aria-labelledby="values-heading"] h3{font-size:clamp(11px,3.35vw,15px)!important;line-height:1.6;white-space:nowrap}
+@media(min-width:768px){
+ section[aria-labelledby="values-heading"] > div{grid-template-columns:repeat(3,minmax(0,1fr))}
+ section[aria-labelledby="values-heading"] article{padding:16px 10px;gap:7px}
+ section[aria-labelledby="values-heading"] h3{font-size:clamp(10px,1.15vw,13px)!important}
+}
+</style>
+</head>
  <body data-template-id="__page-root" style="background: rgb(255, 250, 242);">
   <div class="site-shell">
    <header class="content-width flex flex-col items-center justify-between gap-4 py-5 md:flex-row md:flex-wrap md:py-7">
@@ -213,7 +235,7 @@
      <div data-template-id="logo-placeholder" class="canva-panel placeholder min-h-[55px] w-[105px] shrink-0 md:w-[145px]" style="font-size: 16px; background: rgb(255, 246, 238); color: rgb(115, 93, 86); font-weight: 400; font-style: normal;">ここにロゴを入れる</div><a href="#top" data-template-id="header-brand" class="canva-link font-bold tracking-tight text-[#493a35]" style="font-size: 17px; color: rgb(73, 58, 53); font-weight: 700; font-style: normal;">大人の自由研究所</a>
     </div>
     <nav aria-label="ページ内メニュー" class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-center">
-     <a href="#counseling" data-template-id="nav-counseling" class="canva-link font-bold text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 700; font-style: normal;">個別カウンセリング</a> <a href="#research" data-template-id="nav-research" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">自由研究</a> <a href="#questions" data-template-id="nav-questions" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">匿名の質問</a>
+     <a href="#counseling" data-template-id="nav-counseling" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">個別カウンセリング <span aria-hidden="true">↓</span></a> <a href="#research" data-template-id="nav-research" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">自由研究 <span aria-hidden="true">↓</span></a> <a href="#questions" data-template-id="nav-questions" class="canva-link text-[#493a35]" style="font-size: 14px; color: rgb(73, 58, 53); font-weight: 400; font-style: normal;">匿名の質問 <span aria-hidden="true">↓</span></a>
     </nav>
    </header>
    <main id="top">
@@ -221,7 +243,7 @@
      <div class="content-width grid items-center gap-10 md:grid-cols-[1.1fr_.9fr] md:gap-14">
       <div>
        <p data-template-id="hero-kicker" class="canva-text eyebrow mb-4 text-[#a65d66]" style="color: rgb(166, 93, 102); font-weight: 700; font-style: normal; font-size: 16px;">大人のための、ちいさな問いの研究室。</p>
-       <h1 id="hero-heading" data-template-id="hero-heading" class="canva-text display mb-6 text-[#493a35]" style="font-size: 32px; color: rgb(73, 58, 53); font-weight: 700; font-style: normal;">恋愛や人間関係、ちょっと話しにくいお悩みまで。</h1>
+       <h1 id="hero-heading" data-template-id="hero-heading" class="canva-text display mb-6 text-[#493a35]" style="font-size: 32px; color: rgb(73, 58, 53); font-weight: 700; font-style: normal;"><span class="hero-keyword">恋愛や人間関係、</span><span class="hero-tagline">ちょっと話しにくいお悩みまで。</span></h1>
        <p data-template-id="hero-description" class="canva-text max-w-[570px] leading-[2] text-[#715f59]" style="font-size: 16px; color: rgb(113, 95, 89); font-weight: 400; font-style: normal;">恋愛、人間関係、心とからだのこと。身近な人には話しにくいことも、ここでは自分のペースで話してみませんか。</p>
        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
         <a href="#counseling" data-template-id="hero-counseling-cta" class="canva-button pill-link bg-[#bd777b] text-white" style="background: rgb(189, 119, 123); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 16px;">個別カウンセリング</a> <a href="#questions" data-template-id="hero-question-cta" class="canva-button pill-link outline-link bg-[#fffaf2] text-[#75434b]" style="background: rgb(255, 250, 242); color: rgb(117, 67, 75); font-weight: 700; font-style: normal; font-size: 16px;">匿名で質問する</a>
