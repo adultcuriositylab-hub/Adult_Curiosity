@@ -159,6 +159,33 @@ function submitReservation(input) {
         body: '所有者限定テストから仮予約が入りました。予約確定は手動です。\n\n受付番号：' + receipt.reference + '\n日時：' + data.date + ' ' + data.time + '〜（50分・日本時間）\n相談方法：' + data.method + '\nお名前：' + data.name + '\nメール：' + data.email + '\n事前相談：' + data.note});
       receipt.notification = 'sent';
     } catch (_) { receipt.notification = 'failed'; }
+    // お客様へのメールも運営通知とは独立して送信します。
+    // メールだけ失敗してもカレンダーの仮予約は取り消しません。
+    receipt.customerNotification = 'unknown';
+    properties.setProperty(key, JSON.stringify(receipt));
+    try {
+      MailApp.sendEmail({
+        to: data.email,
+        replyTo: SETTINGS.notificationEmail,
+        name: '大人の自由研究所',
+        subject: '【大人の自由研究所】仮予約を受け付けました（予約未確定）',
+        body: data.name + ' 様\n\n' +
+          '大人の自由研究所へのお申し込みありがとうございます。\n' +
+          '以下の内容で仮予約を受け付けました。\n\n' +
+          '【まだ予約は確定していません】\n' +
+          '運営からの連絡をもって予約確定となります。\n\n' +
+          'ご希望日時：' + data.date + ' ' + data.time + '〜（50分・日本時間）\n' +
+          '相談方法：' + data.method + '\n' +
+          '受付番号：' + receipt.reference + '\n\n' +
+          '変更・キャンセルをご希望の場合は、このメールにご返信ください。\n' +
+          'お申し込みにお心当たりがない場合も、このメールにご返信ください。\n\n' +
+          '大人の自由研究所\n' + SETTINGS.notificationEmail + '\n\n' +
+          '※これは予約システムのテストで送信した受付メールです。'
+      });
+      receipt.customerNotification = 'sent';
+    } catch (_) {
+      receipt.customerNotification = 'failed';
+    }
     properties.setProperty(key, JSON.stringify(receipt));
     return success_(receipt);
   } catch (_) {
@@ -167,7 +194,7 @@ function submitReservation(input) {
 }
 
 function success_(receipt) {
-  return {success: true, code: 'ACCEPTED', reference: receipt.reference, notification: receipt.notification,
+  return {success: true, code: 'ACCEPTED', reference: receipt.reference, notification: receipt.notification, customerNotification: receipt.customerNotification || 'unknown',
     message: '仮予約を受け付けました。予約確定ではありません。運営からの連絡をお待ちください。'};
 }
 
