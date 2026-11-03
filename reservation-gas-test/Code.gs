@@ -145,10 +145,10 @@ function submitReservation(input) {
     }
     if (events.some(event => overlaps_(event, start, end))) return {success: false, code: 'CONFLICT', message: 'その時間は予約できなくなりました。別の時間を選んでください。'};
     cleanupReceipts_(properties);
-    receipt = {fingerprint: fingerprint, reference: data.requestId, status: 'pending', notification: 'unknown', createdAt: Date.now()};
+    receipt = {fingerprint: fingerprint, reference: data.requestId, displayReference: newDisplayReference_(properties, data.date), status: 'pending', notification: 'unknown', createdAt: Date.now()};
     properties.setProperty(key, JSON.stringify(receipt));
     const event = calendar.createEvent('【仮予約・テスト】' + data.name, start, end, {
-      description: marker + '\n受付番号：' + data.requestId + '\n相談方法：' + data.method + '\nお名前：' + data.name + '\nメール：' + data.email + '\n事前相談：' + data.note
+      description: marker + '\n受付番号：' + receipt.displayReference + '\n相談方法：' + data.method + '\nお名前：' + data.name + '\nメール：' + data.email + '\n事前相談：' + data.note
     });
     event.setVisibility(CalendarApp.Visibility.PRIVATE);
     receipt.status = 'created';
@@ -156,7 +156,7 @@ function submitReservation(input) {
     try {
       MailApp.sendEmail({to: SETTINGS.notificationEmail, replyTo: data.email,
         subject: '【大人の自由研究所】仮予約受付テスト',
-        body: '所有者限定テストから仮予約が入りました。予約確定は手動です。\n\n受付番号：' + receipt.reference + '\n日時：' + data.date + ' ' + data.time + '〜（50分・日本時間）\n相談方法：' + data.method + '\nお名前：' + data.name + '\nメール：' + data.email + '\n事前相談：' + data.note});
+        body: '所有者限定テストから仮予約が入りました。予約確定は手動です。\n\n受付番号：' + (receipt.displayReference || receipt.reference) + '\n日時：' + data.date + ' ' + data.time + '〜（50分・日本時間）\n相談方法：' + data.method + '\nお名前：' + data.name + '\nメール：' + data.email + '\n事前相談：' + data.note});
       receipt.notification = 'sent';
     } catch (_) { receipt.notification = 'failed'; }
     // お客様へのメールも運営通知とは独立して送信します。
@@ -176,7 +176,7 @@ function submitReservation(input) {
           '運営からの連絡をもって予約確定となります。\n\n' +
           'ご希望日時：' + data.date + ' ' + data.time + '〜（50分・日本時間）\n' +
           '相談方法：' + data.method + '\n' +
-          '受付番号：' + receipt.reference + '\n\n' +
+          '受付番号：' + (receipt.displayReference || receipt.reference) + '\n\n' +
           '変更・キャンセルをご希望の場合は、このメールにご返信ください。\n' +
           'お申し込みにお心当たりがない場合も、このメールにご返信ください。\n\n' +
           '大人の自由研究所\n' + SETTINGS.notificationEmail + '\n\n' +
@@ -194,7 +194,7 @@ function submitReservation(input) {
 }
 
 function success_(receipt) {
-  return {success: true, code: 'ACCEPTED', reference: receipt.reference, notification: receipt.notification, customerNotification: receipt.customerNotification || 'unknown',
+  return {success: true, code: 'ACCEPTED', reference: receipt.reference, displayReference: receipt.displayReference || receipt.reference, notification: receipt.notification, customerNotification: receipt.customerNotification || 'unknown',
     message: '仮予約を受け付けました。予約確定ではありません。運営からの連絡をお待ちください。'};
 }
 
@@ -204,4 +204,21 @@ function cleanupReceipts_(properties) {
   Object.keys(entries).filter(key => key.startsWith('booking_')).forEach(key => {
     try { if (JSON.parse(entries[key]).createdAt < cutoff) properties.deleteProperty(key); } catch (_) {}
   });
+}
+
+/** 表示用番号だけ短くする。内部のrequestIdは変更しません。 */
+function newDisplayReference_(properties, dateText) {
+  const used = new Set();
+  Object.keys(properties.getProperties()).filter(key => key.startsWith('booking_')).forEach(key => {
+    try {
+      const saved = JSON.parse(properties.getProperty(key));
+      if (saved.displayReference) used.add(saved.displayReference);
+    } catch (_) {}
+  });
+  for (let attempt = 0; attempt < 20; attempt++) {
+    const suffix = Utilities.getUuid().replace(/-/g, '').slice(0, 6).toUpperCase();
+    const reference = dateText.replace(/-/g, '') + '-' + suffix;
+    if (!used.has(reference)) return reference;
+  }
+  throw new Error('REFERENCE_UNAVAILABLE');
 }
