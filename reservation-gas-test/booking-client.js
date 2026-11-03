@@ -141,7 +141,7 @@
     try {
       const result = await rpc('submitReservation', pending, 45000);
       if (result && result.success === true && result.code === 'ACCEPTED' && result.reference === pending.requestId) {
-        document.getElementById('receipt').textContent = '受付番号：' + result.reference;
+        document.getElementById('receipt').textContent = '受付番号：' + (result.displayReference || result.reference);
         const ownerMail = result.notification === 'sent'
           ? '運営への通知メールを送信しました。'
           : '運営への通知メールは失敗、または送信状況を確認できません。';
