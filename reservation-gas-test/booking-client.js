@@ -71,7 +71,7 @@
       });
       readyDate = selectedDate;
       review.disabled = count === 0;
-      notice(status, count ? 'ご希望の時間を選んでください。薄い表示の枠は予約できません。' : 'この日は予約できる時間がありません。別の日を選んでください。');
+      notice(status, result.bookingClosed === true ? 'この日の受付は終了しました。前日の20:00までにお申し込みください。' : count ? 'ご希望の時間を選んでください。薄い表示の枠は予約できません。' : 'この日は予約できる時間がありません。別の日を選んでください。');
       reload.hidden = false;
     } catch (error) {
       if (current !== sequence || date.value !== selectedDate) return;
@@ -152,7 +152,7 @@
         pending = null; confirmation.hidden = true; accepted.hidden = false;
         accepted.focus(); accepted.scrollIntoView({block: 'start'}); return;
       }
-      const known = result && result.success === false && ['CONFLICT','INVALID_INPUT','BUSY'].includes(result.code);
+      const known = result && result.success === false && ['CONFLICT','INVALID_INPUT','BUSY','BOOKING_CLOSED'].includes(result.code);
       if (known) {
         pending = null;
         notice(sendStatus, result.message, true);
