@@ -89,9 +89,9 @@ function getAvailability(dateText) {
       const time = hour + ':00';
       const start = new Date(dateText + 'T' + time + ':00+09:00');
       const end = new Date(start.getTime() + SETTINGS.minutes * 60000);
-      slots.push({time: time, available: start.getTime() > Date.now() && !events.some(event => overlaps_(event, start, end))});
+      slots.push({time: time, available: Date.now() < date.getTime() - 4 * 3600000 && start.getTime() > Date.now() && !events.some(event => overlaps_(event, start, end))});
     }
-    return {success: true, date: dateText, slots: slots};
+    return {success: true, date: dateText, slots: slots, bookingClosed: Date.now() >= date.getTime() - 4 * 3600000};
   } catch (_) {
     return {success: false, code: 'AVAILABILITY_ERROR', message: '空き状況を取得できませんでした。再度お試しください。'};
   }
@@ -131,6 +131,7 @@ function submitReservation(input) {
     if (receipt && receipt.fingerprint !== fingerprint) return invalid_('受付番号と入力内容が一致しません。ページを開き直してください。');
     if (receipt && receipt.status === 'created') return success_(receipt);
     if (!inRange_(day) || start.getTime() <= Date.now()) return invalid_('本日から90日先までの、未来の日時を選んでください。');
+    if (Date.now() >= day.getTime() - 4 * 3600000) return {success: false, code: 'BOOKING_CLOSED', message: 'この日の受付は終了しました。予約は日本時間で前日の20:00までです。別の日を選んでください。'};
     const calendar = calendar_();
     const events = calendar.getEvents(start, end);
     // 登録後に応答や保存が途切れても、同じ受付番号の予定を探して二重登録を防ぎます。
