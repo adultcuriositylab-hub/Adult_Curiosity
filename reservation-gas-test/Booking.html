@@ -77,7 +77,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <input id="date" name="date" type="date" required>
 <span class="date-placeholder" aria-hidden="true">日付を選択してください</span>
 </div>
-<p class="note">毎日10:00〜20:00開始・各50分<br><span style="white-space:nowrap">（日本時間）</span><br>空き状況は日付を選ぶと表示されます。</p>
+<p class="note">毎日10:00〜20:00開始・各50分<br><span style="white-space:nowrap">（日本時間）</span><br>受付締切は前日の20:00です。<br>空き状況は日付を選ぶと表示されます。</p>
 </section>
 <section class="step" aria-labelledby="time-heading">
 <h2 id="time-heading"><span class="number">03</span>ご希望の時間</h2>
@@ -203,7 +203,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
       });
       readyDate = selectedDate;
       review.disabled = count === 0;
-      notice(status, count ? 'ご希望の時間を選んでください。薄い表示の枠は予約できません。' : 'この日は予約できる時間がありません。別の日を選んでください。');
+      notice(status, result.bookingClosed === true ? 'この日の受付は終了しました。前日の20:00までにお申し込みください。' : count ? 'ご希望の時間を選んでください。薄い表示の枠は予約できません。' : 'この日は予約できる時間がありません。別の日を選んでください。');
       reload.hidden = false;
     } catch (error) {
       if (current !== sequence || date.value !== selectedDate) return;
@@ -284,7 +284,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
         pending = null; confirmation.hidden = true; accepted.hidden = false;
         accepted.focus(); accepted.scrollIntoView({block: 'start'}); return;
       }
-      const known = result && result.success === false && ['CONFLICT','INVALID_INPUT','BUSY'].includes(result.code);
+      const known = result && result.success === false && ['CONFLICT','INVALID_INPUT','BUSY','BOOKING_CLOSED'].includes(result.code);
       if (known) {
         pending = null;
         notice(sendStatus, result.message, true);
