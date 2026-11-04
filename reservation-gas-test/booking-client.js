@@ -10,7 +10,7 @@
   const edit = document.getElementById('edit');
   const sendStatus = document.getElementById('send-status');
   const accepted = document.getElementById('accepted');
-  let sequence = 0, readyDate = '', snapshot = null, pending = null;
+  let sequence = 0, readyDate = '', readyMethod = '', snapshot = null, pending = null;
   let lastFingerprint = '', requestId = '', sending = false;
   const jst = value => new Intl.DateTimeFormat('sv-SE', {
     timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit'
@@ -38,7 +38,7 @@
   }
 
   function resetTimes() {
-    readyDate = '';
+    readyDate = ''; readyMethod = '';
     timeInputs.forEach(input => { input.disabled = true; input.checked = false; });
     review.disabled = true;
   }
@@ -46,16 +46,18 @@
   async function loadSlots() {
     const current = ++sequence;
     const selectedDate = date.value;
+    const selectedMethod = form.querySelector('input[name="method"]:checked')?.value || '';
     resetTimes(); reload.hidden = true;
+    if (!selectedMethod) { notice(status, '先にご相談の方法を選んでください。'); return; }
     if (!selectedDate) { notice(status, '日付を選んでください。'); return; }
     if (selectedDate < date.min || selectedDate > date.max) {
       notice(status, '本日から90日先までの日付を選んでください。', true); return;
     }
     notice(status, '空き状況を確認しています…');
     try {
-      const result = await rpc('getAvailability', selectedDate);
-      if (current !== sequence || date.value !== selectedDate) return;
-      if (!result || result.success !== true || result.date !== selectedDate ||
+      const result = await rpc('getAvailability', {date: selectedDate, method: selectedMethod});
+      if (current !== sequence || date.value !== selectedDate || form.querySelector('input[name="method"]:checked')?.value !== selectedMethod) return;
+      if (!result || result.success !== true || result.date !== selectedDate || result.method !== selectedMethod ||
           !Array.isArray(result.slots) || result.slots.length !== 11) throw new Error('BAD_RESPONSE');
       const slots = new Map();
       result.slots.forEach(slot => {
@@ -69,12 +71,12 @@
         input.setAttribute('aria-label', input.value + (input.disabled ? ' 予約不可' : ' 予約可能'));
         if (!input.disabled) count++;
       });
-      readyDate = selectedDate;
+      readyDate = selectedDate; readyMethod = selectedMethod;
       review.disabled = count === 0;
       notice(status, result.bookingClosed === true ? 'この日の受付は終了しました。前日の20:00までにお申し込みください。' : count ? 'ご希望の時間を選んでください。薄い表示の枠は予約できません。' : 'この日は予約できる時間がありません。別の日を選んでください。');
       reload.hidden = false;
     } catch (error) {
-      if (current !== sequence || date.value !== selectedDate) return;
+      if (current !== sequence || date.value !== selectedDate || form.querySelector('input[name="method"]:checked')?.value !== selectedMethod) return;
       resetTimes(); reload.hidden = false;
       notice(status, error.message === 'OPEN_GAS_PAGE'
         ? 'Apps Scriptのテスト用URLでこのページを開いてください。'
@@ -96,10 +98,11 @@
     loadSlots();
   });
   date.parentElement.classList.toggle('has-date', !!date.value);
+  form.querySelectorAll('input[name="method"]').forEach(input => input.addEventListener('change', loadSlots));
   reload.addEventListener('click', loadSlots);
   form.addEventListener('submit', event => {
     event.preventDefault();
-    if (!form.reportValidity() || readyDate !== date.value) return;
+    if (!form.reportValidity() || readyDate !== date.value || readyMethod !== form.querySelector('input[name="method"]:checked')?.value) return;
     const data = new FormData(form);
     const time = data.get('time');
     if (!timeInputs.some(input => input.value === time && input.checked && !input.disabled)) return;
