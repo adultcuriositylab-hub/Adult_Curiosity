@@ -5,7 +5,9 @@ const SETTINGS = Object.freeze({
   timeZone: 'Asia/Tokyo',
   minutes: 50,
   daysAhead: 90,
-  siteUrl: 'https://adultcuriositylab.netlify.app/'
+  siteUrl: 'https://adultcuriositylab.netlify.app/',
+  minimumSubmitIntervalSeconds: 60,
+  maximumBookingsPerTenMinutes: 20
 });
 
 function ownerOnly_() {
@@ -145,6 +147,12 @@ function submitReservation(input) {
       return success_(receipt);
     }
     if (events.some(event => overlaps_(event, start, end))) return {success: false, code: 'CONFLICT', message: 'その時間は予約できなくなりました。別の時間を選んでください。'};
+    // 再送済み・重複・締切の判定後、新しい予約だけに適用します。
+    if (MailApp.getRemainingDailyQuota() < 2) {
+      return {success: false, code: 'SERVICE_UNAVAILABLE', message: 'ただいま予約の受付を一時停止しています。運営へメールでお問い合わせください。'};
+    }
+    const limited = reserveSubmissionAllowance_(properties, data.email);
+    if (limited) return limited;
     cleanupReceipts_(properties);
     receipt = {fingerprint: fingerprint, reference: data.requestId, displayReference: newDisplayReference_(properties, data.date), status: 'pending', notification: 'unknown', createdAt: Date.now()};
     properties.setProperty(key, JSON.stringify(receipt));
@@ -222,4 +230,30 @@ function newDisplayReference_(properties, dateText) {
     if (!used.has(reference)) return reference;
   }
   throw new Error('REFERENCE_UNAVAILABLE');
+}
+
+/** 公開準備用の基本的な連続登録制限。所有者限定の制限は解除していません。 */
+function reserveSubmissionAllowance_(properties, email) {
+  const now = Date.now();
+  const emailHash = Utilities.base64EncodeWebSafe(Utilities.computeDigest(
+    Utilities.DigestAlgorithm.SHA_256, email.toLowerCase(), Utilities.Charset.UTF_8));
+  const emailKey = 'rate_email_' + emailHash;
+  const previous = Number(properties.getProperty(emailKey) || 0);
+  if (previous && now - previous < SETTINGS.minimumSubmitIntervalSeconds * 1000) {
+    return {success: false, code: 'RATE_LIMIT', message: '続けてのお申し込みは、1分ほど待ってからお試しください。'};
+  }
+  const bucket = Math.floor(now / 600000);
+  const globalKey = 'rate_window_' + bucket;
+  const count = Number(properties.getProperty(globalKey) || 0);
+  if (count >= SETTINGS.maximumBookingsPerTenMinutes) {
+    return {success: false, code: 'RATE_LIMIT', message: 'ただいまお申し込みが集中しています。時間をおいて再度お試しください。'};
+  }
+  properties.setProperty(emailKey, String(now));
+  properties.setProperty(globalKey, String(count + 1));
+  const all = properties.getProperties();
+  Object.keys(all).forEach(key => {
+    if (key.startsWith('rate_email_') && now - Number(all[key]) > 86400000) properties.deleteProperty(key);
+    if (key.startsWith('rate_window_') && Number(key.slice('rate_window_'.length)) < bucket - 1) properties.deleteProperty(key);
+  });
+  return null;
 }
