@@ -284,13 +284,13 @@ button:disabled{opacity:.5;cursor:not-allowed}
         pending = null; confirmation.hidden = true; accepted.hidden = false;
         accepted.focus(); accepted.scrollIntoView({block: 'start'}); return;
       }
-      const known = result && result.success === false && ['CONFLICT','INVALID_INPUT','BUSY','BOOKING_CLOSED'].includes(result.code);
+      const known = result && result.success === false && ['CONFLICT','INVALID_INPUT','BUSY','BOOKING_CLOSED','RATE_LIMIT','SERVICE_UNAVAILABLE'].includes(result.code);
       if (known) {
         pending = null;
         notice(sendStatus, result.message, true);
         edit.disabled = false;
-        send.disabled = result.code !== 'BUSY';
-        if (result.code === 'BUSY') send.textContent = '同じ内容で再度申し込む';
+        send.disabled = !['BUSY', 'RATE_LIMIT'].includes(result.code);
+        if (['BUSY', 'RATE_LIMIT'].includes(result.code)) send.textContent = '同じ内容で再度申し込む';
         return;
       }
       throw new Error('UNKNOWN_RESULT');
