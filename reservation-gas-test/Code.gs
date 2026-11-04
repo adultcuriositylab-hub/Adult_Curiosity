@@ -33,7 +33,7 @@ function doGet(e) {
   try {
     ownerOnly_();
     if (e && e.parameter && e.parameter.date) {
-      return json_(getAvailability(e.parameter.date));
+      return json_(getAvailability(e.parameter.method ? {date: e.parameter.date, method: e.parameter.method} : e.parameter.date));
     }
     const template = HtmlService.createTemplateFromFile('Booking');
     template.siteUrl = SETTINGS.siteUrl;
@@ -80,9 +80,14 @@ function overlaps_(event, start, end) {
   return busy_(event) && event.getStartTime() < end && event.getEndTime() > start;
 }
 
-function getAvailability(dateText) {
+function getAvailability(request) {
   try {
     ownerOnly_();
+    const dateText = typeof request === 'string' ? request : request && request.date;
+    const method = typeof request === 'string' ? '' : request && request.method;
+    if (typeof request !== 'string' && !['対面', 'オンライン', 'チャット', '電話'].includes(method)) {
+      return invalid_('ご相談の方法を選んでください。');
+    }
     const date = day_(dateText);
     if (!inRange_(date)) return {success: false, code: 'INVALID_DATE', message: '本日から90日先までの日付を選んでください。'};
     const events = calendar_().getEvents(date, new Date(date.getTime() + 86400000));
@@ -91,9 +96,9 @@ function getAvailability(dateText) {
       const time = hour + ':00';
       const start = new Date(dateText + 'T' + time + ':00+09:00');
       const end = new Date(start.getTime() + SETTINGS.minutes * 60000);
-      slots.push({time: time, available: Date.now() < date.getTime() - 4 * 3600000 && start.getTime() > Date.now() && !events.some(event => overlaps_(event, start, end))});
+      slots.push({time: time, available: Date.now() < date.getTime() - 4 * 3600000 && start.getTime() > Date.now() && !events.some(event => blocksMethod_(event, start, end, method))});
     }
-    return {success: true, date: dateText, slots: slots, bookingClosed: Date.now() >= date.getTime() - 4 * 3600000};
+    return {success: true, date: dateText, method: method, slots: slots, bookingClosed: Date.now() >= date.getTime() - 4 * 3600000};
   } catch (_) {
     return {success: false, code: 'AVAILABILITY_ERROR', message: '空き状況を取得できませんでした。再度お試しください。'};
   }
@@ -146,7 +151,7 @@ function submitReservation(input) {
       properties.setProperty(key, JSON.stringify(receipt));
       return success_(receipt);
     }
-    if (events.some(event => overlaps_(event, start, end))) return {success: false, code: 'CONFLICT', message: 'その時間は予約できなくなりました。別の時間を選んでください。'};
+    if (events.some(event => blocksMethod_(event, start, end, data.method))) return {success: false, code: 'CONFLICT', message: 'その時間は予約できなくなりました。別の時間を選んでください。'};
     // 再送済み・重複・締切の判定後、新しい予約だけに適用します。
     if (MailApp.getRemainingDailyQuota() < 2) {
       return {success: false, code: 'SERVICE_UNAVAILABLE', message: 'ただいま予約の受付を一時停止しています。運営へメールでお問い合わせください。'};
@@ -256,4 +261,16 @@ function reserveSubmissionAllowance_(properties, email) {
     if (key.startsWith('rate_window_') && Number(key.slice('rate_window_'.length)) < bucket - 1) properties.deleteProperty(key);
   });
   return null;
+}
+
+/**
+ * 「【対面NG】」で始まる予定は対面だけを止めます。
+ * 通常の予定・仮予約は全方法を止めます。予定の詳細は予約者へ返しません。
+ */
+function blocksMethod_(event, start, end, method) {
+  if (!overlaps_(event, start, end)) return false;
+  if ((event.getTitle() || '').startsWith('【対面NG】')) {
+    return !method || method === '対面';
+  }
+  return true;
 }
