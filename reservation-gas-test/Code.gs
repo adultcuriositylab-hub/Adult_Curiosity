@@ -12,27 +12,42 @@ const SETTINGS = Object.freeze({
 
 
 const SERVICES = Object.freeze({
-  consultation: Object.freeze({label: 'お悩み相談', minutes: 50, priceYen: 5500, priceIsMinimum: true,
+  consultation: Object.freeze({label: 'お悩み相談', prices: Object.freeze({1: 5500, 2: 10000}),
     methods: Object.freeze(['対面', 'オンライン', 'チャット', '電話'])}),
-  practical: Object.freeze({label: '実技レッスン', minutes: 50, priceYen: 22000, priceIsMinimum: false,
+  practical: Object.freeze({label: '実技レッスン', prices: Object.freeze({1: 22000}),
     methods: Object.freeze(['対面'])})
 });
+// 2枠の間に休憩を入れる場合は10。現在の作業用設定は100分連続です。
+const TWO_SESSION_BREAK_MINUTES = 0;
 const PAYMENT_PREFERENCES = Object.freeze(['クレジットカード', 'PayPay', '現金']);
 
-function service_(id) {
-  return typeof id === 'string' && Object.prototype.hasOwnProperty.call(SERVICES, id) ? SERVICES[id] : null;
+function service_(id, units = 1) {
+  if (typeof id !== 'string' || !Object.prototype.hasOwnProperty.call(SERVICES, id) ||
+      !Number.isInteger(units) || ![1, 2].includes(units)) return null;
+  const base = SERVICES[id];
+  if (!Object.prototype.hasOwnProperty.call(base.prices, units)) return null;
+  return {label: base.label, methods: base.methods, units: units, minutes: units * 50,
+    occupiedMinutes: units * 50 + (units === 2 ? TWO_SESSION_BREAK_MINUTES : 0), priceYen: base.prices[units]};
 }
 
 function priceLabel_(service) {
-  return service.priceYen.toLocaleString('ja-JP') + '円（税込）' + (service.priceIsMinimum ? '〜' : '');
+  return service.priceYen.toLocaleString('ja-JP') + '円（税込）';
+}
+
+function timeLabel_(data, service) {
+  const start = new Date(data.date + 'T' + data.time + ':00+09:00');
+  const end = new Date(start.getTime() + service.occupiedMinutes * 60000);
+  return data.date + ' ' + data.time + '〜' + Utilities.formatDate(end, SETTINGS.timeZone, 'HH:mm') +
+    '（' + service.minutes + '分・' + service.units + '枠' +
+    (service.occupiedMinutes > service.minutes ? '・休憩' + (service.occupiedMinutes - service.minutes) + '分あり' : '') + '・日本時間）';
 }
 
 function reservationDetails_(data, service) {
   return '相談区分：' + service.label + '\n' +
-    '料金のご案内：' + priceLabel_(service) + '\n' +
+    'ご予約時間：' + service.minutes + '分（' + service.units + '枠）\n' +
+    '料金：' + priceLabel_(service) + '\n' +
     'お支払い方法のご希望：' + data.paymentPreference + '（未決済）\n' +
     (data.method === '対面' ? '希望駅：仮予約後、運営からメールで確認します。\n' : '') +
-    (service.priceIsMinimum ? '正式料金は運営から事前にご案内し、ご了承いただいたうえで予約確定となります。\n' : '') +
     'このフォームで決済は行われません。支払い方法・時期は運営からご案内します。';
 }
 
@@ -59,7 +74,7 @@ function doGet(e) {
   try {
     ownerOnly_();
     if (e && e.parameter && e.parameter.date) {
-      return json_(getAvailability(e.parameter.method ? {date: e.parameter.date, method: e.parameter.method, service: e.parameter.service || 'consultation'} : e.parameter.date));
+      return json_(getAvailability(e.parameter.method ? {date: e.parameter.date, method: e.parameter.method, service: e.parameter.service || 'consultation', units: e.parameter.units ? Number(e.parameter.units) : 1} : e.parameter.date));
     }
     const template = HtmlService.createTemplateFromFile('Booking');
     template.siteUrl = SETTINGS.siteUrl;
@@ -115,19 +130,21 @@ function getAvailability(request) {
       return invalid_('ご相談の方法を選んでください。');
     }
     const serviceId = typeof request === 'string' ? 'consultation' : (request.service || 'consultation');
-    const service = service_(serviceId);
+    const units = typeof request === 'string' ? 1 : (request.units === undefined ? 1 : request.units);
+    const service = service_(serviceId, units);
     if (!service || (method && !service.methods.includes(method))) return invalid_('この相談区分では、その相談方法を選べません。');
     const date = day_(dateText);
     if (!inRange_(date)) return {success: false, code: 'INVALID_DATE', message: '本日から90日先までの日付を選んでください。'};
     const events = calendar_().getEvents(date, new Date(date.getTime() + 86400000));
     const slots = [];
+    const close = new Date(date.getTime() + 21 * 3600000);
     for (let hour = 10; hour <= 20; hour++) {
       const time = hour + ':00';
       const start = new Date(dateText + 'T' + time + ':00+09:00');
-      const end = new Date(start.getTime() + service.minutes * 60000);
-      slots.push({time: time, available: Date.now() < date.getTime() - 4 * 3600000 && start.getTime() > Date.now() && !events.some(event => blocksMethod_(event, start, end, method))});
+      const end = new Date(start.getTime() + service.occupiedMinutes * 60000);
+      slots.push({time: time, available: Date.now() < date.getTime() - 4 * 3600000 && start.getTime() > Date.now() && end <= close && !events.some(event => blocksMethod_(event, start, end, method))});
     }
-    return {success: true, date: dateText, method: method, service: serviceId, priceLabel: priceLabel_(service), slots: slots, bookingClosed: Date.now() >= date.getTime() - 4 * 3600000};
+    return {success: true, date: dateText, method: method, service: serviceId, units: units, minutes: service.minutes, priceLabel: priceLabel_(service), slots: slots, bookingClosed: Date.now() >= date.getTime() - 4 * 3600000};
   } catch (_) {
     return {success: false, code: 'AVAILABILITY_ERROR', message: '空き状況を取得できませんでした。再度お試しください。'};
   }
@@ -151,16 +168,17 @@ function submitReservation(input) {
         !['対面', 'オンライン', 'チャット', '電話'].includes(data.method) ||
         data.note.length > 2000 || !/^(1[0-9]|20):00$/.test(data.time) ||
         !/^[a-f0-9-]{36}$/i.test(data.requestId) || input.privacy !== true) return invalid_('入力内容とプライバシーポリシーへの同意を確認してください。');
-    const service = service_(data.service);
-    if (!service || !service.methods.includes(data.method)) return invalid_('実技レッスンは対面のみ受け付けています。相談区分と相談方法を確認してください。');
+    data.units = input.units;
+    const service = service_(data.service, data.units);
+    if (!service || !service.methods.includes(data.method)) return invalid_('相談区分・枠数・相談方法の組み合わせを確認してください。実技レッスンは現在、対面の1枠のみです。');
     if (!PAYMENT_PREFERENCES.includes(data.paymentPreference)) return invalid_('お支払い方法のご希望を選んでください。');
     let day;
     try { day = day_(data.date); } catch (_) { return invalid_('日付を確認してください。'); }
     const start = new Date(data.date + 'T' + data.time + ':00+09:00');
-    const end = new Date(start.getTime() + service.minutes * 60000);
+    const end = new Date(start.getTime() + service.occupiedMinutes * 60000);
     const fingerprint = Utilities.base64EncodeWebSafe(Utilities.computeDigest(
       Utilities.DigestAlgorithm.SHA_256,
-      JSON.stringify([data.name, data.email, data.method, data.note, data.date, data.time, data.service, data.paymentPreference]),
+      JSON.stringify([data.name, data.email, data.method, data.note, data.date, data.time, data.service, data.paymentPreference, data.units]),
       Utilities.Charset.UTF_8));
     if (!lock.tryLock(10000)) return {success: false, code: 'BUSY', message: '混雑しています。少し待って、同じ内容で再度お試しください。'};
     locked = true;
@@ -170,6 +188,7 @@ function submitReservation(input) {
     if (receipt && receipt.fingerprint !== fingerprint) return invalid_('受付番号と入力内容が一致しません。ページを開き直してください。');
     if (receipt && receipt.status === 'created') return success_(receipt);
     if (!inRange_(day) || start.getTime() <= Date.now()) return invalid_('本日から90日先までの、未来の日時を選んでください。');
+    if (end > new Date(day.getTime() + 21 * 3600000)) return invalid_('終了が21:00を超えるため、別の開始時間を選んでください。');
     if (Date.now() >= day.getTime() - 4 * 3600000) return {success: false, code: 'BOOKING_CLOSED', message: 'この日の受付は終了しました。予約は日本時間で前日の20:00までです。別の日を選んでください。'};
     const calendar = calendar_();
     const events = calendar.getEvents(start, end);
@@ -202,7 +221,7 @@ function submitReservation(input) {
     try {
       MailApp.sendEmail({to: SETTINGS.notificationEmail, replyTo: data.email,
         subject: '【大人の自由研究所】仮予約受付テスト',
-        body: reservationDetails_(data, service) + '\n\n' + '所有者限定テストから仮予約が入りました。予約確定は手動です。\n\n受付番号：' + (receipt.displayReference || receipt.reference) + '\n日時：' + data.date + ' ' + data.time + '〜（50分・日本時間）\n相談方法：' + data.method + '\nお名前：' + data.name + '\nメール：' + data.email + '\n事前相談：' + data.note});
+        body: reservationDetails_(data, service) + '\n\n' + '所有者限定テストから仮予約が入りました。予約確定は手動です。\n\n受付番号：' + (receipt.displayReference || receipt.reference) + '\n日時：' + timeLabel_(data, service) + '\n相談方法：' + data.method + '\nお名前：' + data.name + '\nメール：' + data.email + '\n事前相談：' + data.note});
       receipt.notification = 'sent';
     } catch (_) { receipt.notification = 'failed'; }
     // お客様へのメールも運営通知とは独立して送信します。
@@ -220,7 +239,7 @@ function submitReservation(input) {
           '以下の内容で仮予約を受け付けました。\n\n' +
           '【まだ予約は確定していません】\n' +
           '運営からの連絡をもって予約確定となります。\n\n' +
-          'ご希望日時：' + data.date + ' ' + data.time + '〜（50分・日本時間）\n' +
+          'ご希望日時：' + timeLabel_(data, service) + '\n' +
           '相談方法：' + data.method + '\n' +
           reservationDetails_(data, service) + '\n\n' +
           '受付番号：' + (receipt.displayReference || receipt.reference) + '\n\n' +
