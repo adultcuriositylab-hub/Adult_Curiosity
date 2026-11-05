@@ -1,6 +1,13 @@
 (() => {
   const form = document.getElementById('reservation');
   const date = document.getElementById('date');
+  const serviceInputs = [...form.querySelectorAll('input[name="service"]')];
+  const methodInputs = [...form.querySelectorAll('input[name="method"]')];
+  const serviceCatalog = {
+    consultation: {label: 'お悩み相談', priceLabel: '5,500円（税込）〜', methods: ['対面', 'オンライン', 'チャット', '電話']},
+    practical: {label: '実技レッスン', priceLabel: '22,000円（税込）', methods: ['対面']}
+  };
+  const chosenService = () => form.querySelector('input[name="service"]:checked')?.value || '';
   const timeInputs = [...form.querySelectorAll('input[name="time"]')];
   const status = document.getElementById('availability-status');
   const reload = document.getElementById('reload-slots');
@@ -10,7 +17,7 @@
   const edit = document.getElementById('edit');
   const sendStatus = document.getElementById('send-status');
   const accepted = document.getElementById('accepted');
-  let sequence = 0, readyDate = '', readyMethod = '', snapshot = null, pending = null;
+  let sequence = 0, readyDate = '', readyMethod = '', readyService = '', snapshot = null, pending = null;
   let lastFingerprint = '', requestId = '', sending = false;
   const jst = value => new Intl.DateTimeFormat('sv-SE', {
     timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit'
@@ -38,7 +45,7 @@
   }
 
   function resetTimes() {
-    readyDate = ''; readyMethod = '';
+    readyDate = ''; readyMethod = ''; readyService = '';
     timeInputs.forEach(input => { input.disabled = true; input.checked = false; });
     review.disabled = true;
   }
@@ -46,8 +53,10 @@
   async function loadSlots() {
     const current = ++sequence;
     const selectedDate = date.value;
+    const selectedService = chosenService();
     const selectedMethod = form.querySelector('input[name="method"]:checked')?.value || '';
     resetTimes(); reload.hidden = true;
+    if (!selectedService) { notice(status, '先に相談区分を選んでください。'); return; }
     if (!selectedMethod) { notice(status, '先にご相談の方法を選んでください。'); return; }
     if (!selectedDate) { notice(status, '日付を選んでください。'); return; }
     if (selectedDate < date.min || selectedDate > date.max) {
@@ -55,9 +64,9 @@
     }
     notice(status, '空き状況を確認しています…');
     try {
-      const result = await rpc('getAvailability', {date: selectedDate, method: selectedMethod});
-      if (current !== sequence || date.value !== selectedDate || form.querySelector('input[name="method"]:checked')?.value !== selectedMethod) return;
-      if (!result || result.success !== true || result.date !== selectedDate || result.method !== selectedMethod ||
+      const result = await rpc('getAvailability', {date: selectedDate, method: selectedMethod, service: selectedService});
+      if (current !== sequence || chosenService() !== selectedService || date.value !== selectedDate || form.querySelector('input[name="method"]:checked')?.value !== selectedMethod) return;
+      if (!result || result.success !== true || result.date !== selectedDate || result.method !== selectedMethod || result.service !== selectedService ||
           !Array.isArray(result.slots) || result.slots.length !== 11) throw new Error('BAD_RESPONSE');
       const slots = new Map();
       result.slots.forEach(slot => {
@@ -71,12 +80,12 @@
         input.setAttribute('aria-label', input.value + (input.disabled ? ' 予約不可' : ' 予約可能'));
         if (!input.disabled) count++;
       });
-      readyDate = selectedDate; readyMethod = selectedMethod;
+      readyDate = selectedDate; readyMethod = selectedMethod; readyService = selectedService;
       review.disabled = count === 0;
       notice(status, result.bookingClosed === true ? 'この日の受付は終了しました。前日の20:00までにお申し込みください。' : count ? 'ご希望の時間を選んでください。薄い表示の枠は予約できません。' : 'この日は予約できる時間がありません。別の日を選んでください。');
       reload.hidden = false;
     } catch (error) {
-      if (current !== sequence || date.value !== selectedDate || form.querySelector('input[name="method"]:checked')?.value !== selectedMethod) return;
+      if (current !== sequence || chosenService() !== selectedService || date.value !== selectedDate || form.querySelector('input[name="method"]:checked')?.value !== selectedMethod) return;
       resetTimes(); reload.hidden = false;
       notice(status, error.message === 'OPEN_GAS_PAGE'
         ? 'Apps Scriptのテスト用URLでこのページを開いてください。'
@@ -98,11 +107,23 @@
     loadSlots();
   });
   date.parentElement.classList.toggle('has-date', !!date.value);
+  serviceInputs.forEach(input => input.addEventListener('change', () => {
+    const service = serviceCatalog[chosenService()];
+    methodInputs.forEach(method => {
+      method.disabled = !service || !service.methods.includes(method.value);
+      if (method.disabled) method.checked = false;
+    });
+    if (chosenService() === 'practical') methodInputs.find(input => input.value === '対面').checked = true;
+    document.getElementById('service-method-note').textContent = chosenService() === 'practical'
+      ? '実技レッスンは対面のみです。希望駅は仮予約後にメールで確認します。'
+      : '対面をご希望の場合、希望駅は仮予約後にメールで確認します。';
+    loadSlots();
+  }));
   form.querySelectorAll('input[name="method"]').forEach(input => input.addEventListener('change', loadSlots));
   reload.addEventListener('click', loadSlots);
   form.addEventListener('submit', event => {
     event.preventDefault();
-    if (!form.reportValidity() || readyDate !== date.value || readyMethod !== form.querySelector('input[name="method"]:checked')?.value) return;
+    if (!form.reportValidity() || readyService !== chosenService() || readyDate !== date.value || readyMethod !== form.querySelector('input[name="method"]:checked')?.value) return;
     const data = new FormData(form);
     const time = data.get('time');
     if (!timeInputs.some(input => input.value === time && input.checked && !input.disabled)) return;
@@ -111,6 +132,7 @@
     }
     snapshot = {
       name: String(data.get('name') || '').trim(), email: String(data.get('email') || '').trim(),
+      service: chosenService(), paymentPreference: data.get('paymentPreference'),
       method: data.get('method'), note: String(data.get('message') || '').trim(),
       date: date.value, time: time, privacy: data.get('privacy') === 'on'
     };
@@ -118,13 +140,18 @@
     if (fingerprint !== lastFingerprint) { requestId = uuid(); lastFingerprint = fingerprint; }
     snapshot.requestId = requestId;
     const summary = document.getElementById('summary'); summary.replaceChildren();
-    [['ご相談の方法', snapshot.method], ['ご希望の日にち', snapshot.date],
+    [['相談区分', serviceCatalog[snapshot.service].label], ['料金のご案内', serviceCatalog[snapshot.service].priceLabel],
+      ['お支払い方法のご希望', snapshot.paymentPreference + '（未決済）'], ['ご相談の方法', snapshot.method], ['ご希望の日にち', snapshot.date],
       ['ご希望の時間', snapshot.time + '〜（50分・日本時間）'], ['お名前', snapshot.name],
       ['メールアドレス', snapshot.email], ['事前に伝えておきたい内容', snapshot.note || '記入なし']]
       .forEach(([label, value]) => {
         const row = document.createElement('div'), dt = document.createElement('dt'), dd = document.createElement('dd');
         dt.textContent = label; dd.textContent = value; row.append(dt, dd); summary.append(row);
       });
+    document.getElementById('confirmation-service-note').textContent =
+      (snapshot.service === 'consultation' ? '正式料金は運営から事前にご案内し、ご了承いただいたうえで予約確定となります。' : '') +
+      (snapshot.method === '対面' ? '希望駅は運営からメールで確認します。' : '') +
+      '支払い方法・時期は運営からご案内します。このフォームでは決済しません。';
     notice(sendStatus, ''); send.disabled = false; edit.disabled = false;
     send.textContent = '仮予約を申し込む';
     form.hidden = true; confirmation.hidden = false;
@@ -175,3 +202,4 @@
 
   if (date.value) loadSlots();
 })();
+
