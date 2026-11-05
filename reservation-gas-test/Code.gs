@@ -14,10 +14,11 @@ const SETTINGS = Object.freeze({
 const SERVICES = Object.freeze({
   consultation: Object.freeze({label: 'お悩み相談', prices: Object.freeze({1: 5500, 2: 10000}),
     methods: Object.freeze(['対面', 'オンライン', 'チャット', '電話'])}),
-  practical: Object.freeze({label: '実技レッスン', prices: Object.freeze({1: 22000}),
+  practical: Object.freeze({label: '実技レッスン', prices: Object.freeze({1: 22000, 2: 40000}),
     methods: Object.freeze(['対面'])})
 });
 // 2枠の間に休憩を入れる場合は10。現在の作業用設定は100分連続です。
+const CANCELLATION_POLICY = "キャンセル・日時変更について\n\nご予約のキャンセル・日時変更をご希望の場合は、できるだけお早めにご連絡ください。\n\n・前日までのキャンセル：無料\n・当日のキャンセル：料金の50％\n・無断キャンセル：料金の100％\n・前日までの日時変更：無料\n\nやむを得ない事情がある場合は、個別にご相談ください。\n\n当研究所の都合によりカウンセリングを実施できなくなった場合は、お支払い済みの料金を全額返金いたします。";
 const TWO_SESSION_BREAK_MINUTES = 0;
 const PAYMENT_PREFERENCES = Object.freeze(['クレジットカード', 'PayPay', '現金']);
 
@@ -167,10 +168,10 @@ function submitReservation(input) {
         data.email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) ||
         !['対面', 'オンライン', 'チャット', '電話'].includes(data.method) ||
         data.note.length > 2000 || !/^(1[0-9]|20):00$/.test(data.time) ||
-        !/^[a-f0-9-]{36}$/i.test(data.requestId) || input.privacy !== true) return invalid_('入力内容とプライバシーポリシーへの同意を確認してください。');
+        !/^[a-f0-9-]{36}$/i.test(data.requestId) || (input.privacy !== true || input.cancellationConsent !== true)) return invalid_('入力内容と各ポリシーへの同意を確認してください。');
     data.units = input.units;
     const service = service_(data.service, data.units);
-    if (!service || !service.methods.includes(data.method)) return invalid_('相談区分・枠数・相談方法の組み合わせを確認してください。実技レッスンは現在、対面の1枠のみです。');
+    if (!service || !service.methods.includes(data.method)) return invalid_('相談区分・枠数・相談方法の組み合わせを確認してください。実技レッスンは対面のみ、予約は最大2枠です。');
     if (!PAYMENT_PREFERENCES.includes(data.paymentPreference)) return invalid_('お支払い方法のご希望を選んでください。');
     let day;
     try { day = day_(data.date); } catch (_) { return invalid_('日付を確認してください。'); }
@@ -243,7 +244,7 @@ function submitReservation(input) {
           '相談方法：' + data.method + '\n' +
           reservationDetails_(data, service) + '\n\n' +
           '受付番号：' + (receipt.displayReference || receipt.reference) + '\n\n' +
-          '変更・キャンセルをご希望の場合は、このメールにご返信ください。\n' +
+          CANCELLATION_POLICY + '\n\n変更・キャンセルをご希望の場合は、このメールにご返信ください。\n' +
           'お申し込みにお心当たりがない場合も、このメールにご返信ください。\n\n' +
           '大人の自由研究所\n' + SETTINGS.notificationEmail + '\n\n' +
           '※これは予約システムのテストで送信した受付メールです。'
