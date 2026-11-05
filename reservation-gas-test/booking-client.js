@@ -146,7 +146,7 @@
       name: String(data.get('name') || '').trim(), email: String(data.get('email') || '').trim(),
       service: chosenService(), units: chosenUnits(), paymentPreference: data.get('paymentPreference'),
       method: data.get('method'), note: String(data.get('message') || '').trim(),
-      date: date.value, time: time, privacy: data.get('privacy') === 'on'
+      date: date.value, time: time, privacy: data.get('privacy') === 'on', cancellationConsent: data.get('privacy') === 'on'
     };
     const fingerprint = JSON.stringify(snapshot);
     if (fingerprint !== lastFingerprint) { requestId = uuid(); lastFingerprint = fingerprint; }
@@ -166,7 +166,6 @@
       '支払い方法・時期は運営からご案内します。このフォームでは決済しません。';
     notice(sendStatus, ''); send.disabled = false; edit.disabled = false;
     send.textContent = '仮予約を申し込む';
-    document.getElementById('cancellation-consent').checked = false;
     form.hidden = true; confirmation.hidden = false;
     confirmation.focus(); confirmation.scrollIntoView({block: 'start'});
   });
@@ -178,9 +177,6 @@
 
   send.addEventListener('click', async () => {
     if (sending || !snapshot) return;
-    const consent = document.getElementById('cancellation-consent');
-    if (!pending && !consent.reportValidity()) return;
-    snapshot.cancellationConsent = true;
     sending = true; send.disabled = true; edit.disabled = true;
     pending = pending || {...snapshot};
     notice(sendStatus, '受付を確認しています。ページを閉じずにお待ちください。');
