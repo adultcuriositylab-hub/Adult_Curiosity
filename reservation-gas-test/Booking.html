@@ -91,7 +91,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <label class="time-option"><input type="radio" name="units" value="1" required checked><span>1枠・50分</span></label>
 <label class="time-option"><input type="radio" name="units" value="2" required><span>2枠・100分</span></label>
 </fieldset>
-<p class="note">実技レッスンは現在1枠のみです。2枠は連続した時間で承ります。</p>
+<p class="note">ご予約は最大2枠です。2枠は連続した100分で承ります。それ以上はメールでご相談ください。</p>
 </section>
 
 <section class="step" aria-labelledby="date-heading">
@@ -154,6 +154,8 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <dl id="summary"></dl>
 <div class="notice"><h3 style="margin:0 0 8px">まだ送信されていません</h3><p>内容を確認し、「仮予約を申し込む」を押してください。予約確定のご連絡は運営から手動で行います。</p></div>
 <p id="confirmation-service-note" class="note"></p>
+<section class="privacy" style="margin-top:24px" aria-label="キャンセルポリシー"><h3>キャンセル・日時変更について</h3><p>ご予約のキャンセル・日時変更をご希望の場合は、できるだけお早めにご連絡ください。</p><p>・前日までのキャンセル：無料<br>・当日のキャンセル：料金の50％<br>・無断キャンセル：料金の100％<br>・前日までの日時変更：無料</p><p>やむを得ない事情がある場合は、個別にご相談ください。</p><p>当研究所の都合によりカウンセリングを実施できなくなった場合は、お支払い済みの料金を全額返金いたします。</p></section>
+<label class="consent" style="margin-top:16px"><input id="cancellation-consent" type="checkbox" required><span>キャンセルポリシーを確認し、同意します</span></label>
 <button id="send" class="action" type="button">仮予約を申し込む</button>
 <p id="send-status" class="note" role="status" aria-live="polite"></p>
 <button id="edit" class="action" type="button">入力内容を修正する</button>
@@ -172,7 +174,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
   const methodInputs = [...form.querySelectorAll('input[name="method"]')];
   const serviceCatalog = {
     consultation: {label: 'お悩み相談', prices: {1: '5,500円（税込）', 2: '10,000円（税込）'}, methods: ['対面', 'オンライン', 'チャット', '電話']},
-    practical: {label: '実技レッスン', prices: {1: '22,000円（税込）'}, methods: ['対面']}
+    practical: {label: '実技レッスン', prices: {1: '22,000円（税込）', 2: '40,000円（税込）'}, methods: ['対面']}
   };
   const unitInputs = [...form.querySelectorAll('input[name="units"]')];
   const chosenUnits = () => Number(form.querySelector('input[name="units"]:checked')?.value || 0);
@@ -333,6 +335,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
       '支払い方法・時期は運営からご案内します。このフォームでは決済しません。';
     notice(sendStatus, ''); send.disabled = false; edit.disabled = false;
     send.textContent = '仮予約を申し込む';
+    document.getElementById('cancellation-consent').checked = false;
     form.hidden = true; confirmation.hidden = false;
     confirmation.focus(); confirmation.scrollIntoView({block: 'start'});
   });
@@ -344,6 +347,9 @@ button:disabled{opacity:.5;cursor:not-allowed}
 
   send.addEventListener('click', async () => {
     if (sending || !snapshot) return;
+    const consent = document.getElementById('cancellation-consent');
+    if (!pending && !consent.reportValidity()) return;
+    snapshot.cancellationConsent = true;
     sending = true; send.disabled = true; edit.disabled = true;
     pending = pending || {...snapshot};
     notice(sendStatus, '受付を確認しています。ページを閉じずにお待ちください。');
