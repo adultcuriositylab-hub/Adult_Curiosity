@@ -5,7 +5,7 @@
   const methodInputs = [...form.querySelectorAll('input[name="method"]')];
   const serviceCatalog = {
     consultation: {label: 'お悩み相談', prices: {1: '5,500円（税込）', 2: '10,000円（税込）'}, methods: ['対面', 'オンライン', 'チャット', '電話']},
-    practical: {label: '実技レッスン', prices: {1: '22,000円（税込）'}, methods: ['対面']}
+    practical: {label: '実技レッスン', prices: {1: '22,000円（税込）', 2: '40,000円（税込）'}, methods: ['対面']}
   };
   const unitInputs = [...form.querySelectorAll('input[name="units"]')];
   const chosenUnits = () => Number(form.querySelector('input[name="units"]:checked')?.value || 0);
@@ -166,6 +166,7 @@
       '支払い方法・時期は運営からご案内します。このフォームでは決済しません。';
     notice(sendStatus, ''); send.disabled = false; edit.disabled = false;
     send.textContent = '仮予約を申し込む';
+    document.getElementById('cancellation-consent').checked = false;
     form.hidden = true; confirmation.hidden = false;
     confirmation.focus(); confirmation.scrollIntoView({block: 'start'});
   });
@@ -177,6 +178,9 @@
 
   send.addEventListener('click', async () => {
     if (sending || !snapshot) return;
+    const consent = document.getElementById('cancellation-consent');
+    if (!pending && !consent.reportValidity()) return;
+    snapshot.cancellationConsent = true;
     sending = true; send.disabled = true; edit.disabled = true;
     pending = pending || {...snapshot};
     notice(sendStatus, '受付を確認しています。ページを閉じずにお待ちください。');
