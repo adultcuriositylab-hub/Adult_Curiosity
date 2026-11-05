@@ -141,9 +141,9 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <p class="note">今はご希望のみを伺います。カード・PayPayは準備中です。支払い方法・時期は仮予約後に運営からご案内します。このフォームでは決済しません。</p>
 </fieldset>
 <div class="privacy" style="margin-top:24px">
-<h3>プライバシーについて</h3>
+<h3>各ポリシーの確認</h3>
 <p>ご相談内容や個人情報は大切に取り扱います。個別の相談内容を無断で公開することはありません。</p>
-<label class="consent"><input type="checkbox" name="privacy" required><span><a href="<?= siteUrl ?>privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>を確認し、同意します</span></label>
+<label class="consent"><input type="checkbox" name="privacy" required><span><a href="<?= siteUrl ?>privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>と<a href="<?= siteUrl ?>cancellation.html" target="_blank" rel="noopener">キャンセルポリシー</a>を確認し、両方に同意します</span></label>
 </div>
 <button id="review" class="action" type="submit" disabled>予約内容を確認する <span aria-hidden="true">→</span></button>
 <p class="action-note">お申し込みは仮予約です。運営からの連絡をもって予約確定となります。</p>
@@ -154,8 +154,8 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <dl id="summary"></dl>
 <div class="notice"><h3 style="margin:0 0 8px">まだ送信されていません</h3><p>内容を確認し、「仮予約を申し込む」を押してください。予約確定のご連絡は運営から手動で行います。</p></div>
 <p id="confirmation-service-note" class="note"></p>
-<section class="privacy" style="margin-top:24px" aria-label="キャンセルポリシー"><h3>キャンセル・日時変更について</h3><p>ご予約のキャンセル・日時変更をご希望の場合は、できるだけお早めにご連絡ください。</p><p>・前日までのキャンセル：無料<br>・当日のキャンセル：料金の50％<br>・無断キャンセル：料金の100％<br>・前日までの日時変更：無料</p><p>やむを得ない事情がある場合は、個別にご相談ください。</p><p>当研究所の都合によりカウンセリングを実施できなくなった場合は、お支払い済みの料金を全額返金いたします。</p></section>
-<label class="consent" style="margin-top:16px"><input id="cancellation-consent" type="checkbox" required><span>キャンセルポリシーを確認し、同意します</span></label>
+
+
 <button id="send" class="action" type="button">仮予約を申し込む</button>
 <p id="send-status" class="note" role="status" aria-live="polite"></p>
 <button id="edit" class="action" type="button">入力内容を修正する</button>
@@ -315,7 +315,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
       name: String(data.get('name') || '').trim(), email: String(data.get('email') || '').trim(),
       service: chosenService(), units: chosenUnits(), paymentPreference: data.get('paymentPreference'),
       method: data.get('method'), note: String(data.get('message') || '').trim(),
-      date: date.value, time: time, privacy: data.get('privacy') === 'on'
+      date: date.value, time: time, privacy: data.get('privacy') === 'on', cancellationConsent: data.get('privacy') === 'on'
     };
     const fingerprint = JSON.stringify(snapshot);
     if (fingerprint !== lastFingerprint) { requestId = uuid(); lastFingerprint = fingerprint; }
@@ -335,7 +335,6 @@ button:disabled{opacity:.5;cursor:not-allowed}
       '支払い方法・時期は運営からご案内します。このフォームでは決済しません。';
     notice(sendStatus, ''); send.disabled = false; edit.disabled = false;
     send.textContent = '仮予約を申し込む';
-    document.getElementById('cancellation-consent').checked = false;
     form.hidden = true; confirmation.hidden = false;
     confirmation.focus(); confirmation.scrollIntoView({block: 'start'});
   });
@@ -347,9 +346,6 @@ button:disabled{opacity:.5;cursor:not-allowed}
 
   send.addEventListener('click', async () => {
     if (sending || !snapshot) return;
-    const consent = document.getElementById('cancellation-consent');
-    if (!pending && !consent.reportValidity()) return;
-    snapshot.cancellationConsent = true;
     sending = true; send.disabled = true; edit.disabled = true;
     pending = pending || {...snapshot};
     notice(sendStatus, '受付を確認しています。ページを閉じずにお待ちください。');
