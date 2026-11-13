@@ -63,7 +63,17 @@ def build(root=ROOT):
             body = (root / 'content/articles' / (slug + '.txt')).read_text(encoding='utf-8').strip()
             headings = set(article.get('bodyHeadings', []))
             subheadings = set(article.get('bodySubheadings', []))
-            paragraphs = '\n'.join(('<h2>' + esc(p) + '</h2>') if p in headings else ('<h3>' + esc(p) + '</h3>') if p in subheadings else ('<p>' + esc(p).replace('\n', '<br>') + '</p>') for p in re.split(r'\n\s*\n', body))
+            blocks = []
+            for paragraph in re.split(r'\n\s*\n', body):
+                if paragraph in headings:
+                    blocks.append('<h2>' + esc(paragraph) + '</h2>')
+                elif paragraph in subheadings:
+                    blocks.append('<h3>' + esc(paragraph) + '</h3>')
+                elif all(line.startswith('* ') for line in paragraph.splitlines()):
+                    blocks.append('<ul>' + ''.join('<li>' + esc(line[2:]) + '</li>' for line in paragraph.splitlines()) + '</ul>')
+                else:
+                    blocks.append('<p>' + esc(paragraph).replace('\n', '<br>') + '</p>')
+            paragraphs = '\n'.join(blocks)
             robots = '<meta name="robots" content="noindex,follow">' if preparing else ''
             label = '<p class="article-status">ただいま準備中です</p>' if preparing else ''
             output = f'''<!doctype html>
