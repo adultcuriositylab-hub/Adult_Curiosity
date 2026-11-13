@@ -91,7 +91,13 @@
         {
           "slug": "knowing-your-body",
           "title": "自分のからだを知ることは、なぜ大切？",
-          "status": "preparing"
+          "status": "published",
+          "bodyHeadings": [
+            "自分の「気持ちいい」を、どれくらい知っていますか？",
+            "相手の好みばかり優先していませんか？",
+            "自分のからだを知るということ",
+            "誰かのためではなく、自分のために"
+          ]
         },
         {
           "slug": "self-pleasure-and-understanding",

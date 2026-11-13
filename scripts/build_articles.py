@@ -61,7 +61,8 @@ def build(root=ROOT):
             slug, title = article['slug'], article['title']
             preparing = article.get('status', 'preparing') == 'preparing'
             body = (root / 'content/articles' / (slug + '.txt')).read_text(encoding='utf-8').strip()
-            paragraphs = '\n'.join('<p>' + esc(p).replace('\n', '<br>') + '</p>' for p in re.split(r'\n\s*\n', body))
+            headings = set(article.get('bodyHeadings', []))
+            paragraphs = '\n'.join(('<h2>' + esc(p) + '</h2>') if p in headings else ('<p>' + esc(p).replace('\n', '<br>') + '</p>') for p in re.split(r'\n\s*\n', body))
             robots = '<meta name="robots" content="noindex,follow">' if preparing else ''
             label = '<p class="article-status">ただいま準備中です</p>' if preparing else ''
             output = f'''<!doctype html>

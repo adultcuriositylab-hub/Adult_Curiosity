@@ -31,7 +31,7 @@ with tempfile.TemporaryDirectory() as folder:
             assert f'href="articles/{article["slug"]}/"' in home
             page = (working / 'articles' / article['slug'] / 'index.html').read_text()
             assert article['title'] in page
-            assert 'noindex,follow' in page
+            assert ('noindex,follow' in page) == (article.get('status','preparing') == 'preparing')
     first = data['categories'][0]['articles'][0]
     (working / 'content/articles' / (first['slug'] + '.txt')).write_text('編集した本文です。\n\n<script>unsafe()</script>')
     first['status'] = 'published'
