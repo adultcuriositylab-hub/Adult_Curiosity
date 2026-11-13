@@ -7,17 +7,29 @@
         {
           "slug": "unrequited-love-pain",
           "title": "片思いが苦しいのはなぜ？",
-          "status": "preparing"
+          "status": "published",
+          "bodyHeadings": [
+            "なぜ片思いは苦しくなる？",
+            "大人の自由研究所では"
+          ]
         },
         {
           "slug": "jealousy-in-love",
           "title": "好きな人に嫉妬してしまう心理",
-          "status": "preparing"
+          "status": "published",
+          "bodyHeadings": [
+            "嫉妬はなぜ生まれる？",
+            "大人の自由研究所では"
+          ]
         },
         {
           "slug": "love-and-attachment",
           "title": "恋愛感情と執着の違い",
-          "status": "preparing"
+          "status": "published",
+          "bodyHeadings": [
+            "好きなのか、失うのが怖いのか",
+            "大人の自由研究所では"
+          ]
         }
       ]
     },
@@ -28,17 +40,29 @@
         {
           "slug": "relationship-rut",
           "title": "恋人・夫婦のマンネリはなぜ起こる？",
-          "status": "preparing"
+          "status": "published",
+          "bodyHeadings": [
+            "慣れることは、愛情がなくなること？",
+            "大人の自由研究所では"
+          ]
         },
         {
           "slug": "sexless-and-affection",
           "title": "セックスレスは愛情がなくなった証拠？",
-          "status": "preparing"
+          "status": "published",
+          "bodyHeadings": [
+            "セックスが減る理由はひとつではない",
+            "大人の自由研究所では"
+          ]
         },
         {
           "slug": "sexual-compatibility",
           "title": "性の相性は変えられる？",
-          "status": "preparing"
+          "status": "published",
+          "bodyHeadings": [
+            "性の相性は、生まれつき決まっている？",
+            "大人の自由研究所では"
+          ]
         }
       ]
     },
@@ -49,17 +73,29 @@
         {
           "slug": "people-pleasing-fatigue",
           "title": "人に合わせすぎて疲れてしまう理由",
-          "status": "preparing"
+          "status": "published",
+          "bodyHeadings": [
+            "なぜ自分より相手を優先してしまう？",
+            "大人の自由研究所では"
+          ]
         },
         {
           "slug": "difficulty-saying-no",
           "title": "断るのが苦手なのはなぜ？",
-          "status": "preparing"
+          "status": "published",
+          "bodyHeadings": [
+            "断ることへの不安",
+            "大人の自由研究所では"
+          ]
         },
         {
           "slug": "comfortable-boundaries",
           "title": "人との心地よい距離感とは",
-          "status": "preparing"
+          "status": "published",
+          "bodyHeadings": [
+            "距離感の違いは、相性の悪さ？",
+            "大人の自由研究所では"
+          ]
         }
       ]
     },
@@ -70,17 +106,29 @@
         {
           "slug": "understanding-your-feelings",
           "title": "自分の本音がわからなくなるとき",
-          "status": "preparing"
+          "status": "published",
+          "bodyHeadings": [
+            "本音が見えにくくなる理由",
+            "大人の自由研究所では"
+          ]
         },
         {
           "slug": "others-opinions",
           "title": "他人からの評価が気になる心理",
-          "status": "preparing"
+          "status": "published",
+          "bodyHeadings": [
+            "なぜ評価が気になる？",
+            "大人の自由研究所では"
+          ]
         },
         {
           "slug": "liking-yourself",
           "title": "自分を好きになるってどういうこと？",
-          "status": "preparing"
+          "status": "published",
+          "bodyHeadings": [
+            "自信と自己受容は同じではない",
+            "大人の自由研究所では"
+          ]
         }
       ]
     },
@@ -93,16 +141,8 @@
           "title": "自分のからだを知ることは、なぜ大切？",
           "status": "published",
           "bodyHeadings": [
-            "自分の「気持ちいい」を、どれくらい知っていますか？",
-            "相手の求める「エロ」に合わせていませんか？",
-            "自分のからだを知るという選択",
-            "大人の自由研究所では、何ができるの？",
-            "自分のからだの主役は、自分自身"
-          ],
-          "bodySubheadings": [
-            "① お話を聞き、悩みを整理する",
-            "② 自分のからだについて学ぶ",
-            "③ 実践的な方法を一緒に考える"
+            "自分の快感を知るということ",
+            "大人の自由研究所では"
           ]
         },
         {
@@ -110,12 +150,8 @@
           "title": "セルフプレジャーと性的な自己理解",
           "status": "published",
           "bodyHeadings": [
-            "自分の「気持ちいい」を知っていますか？",
-            "セルフプレジャーは、自分を知るための時間でもある",
-            "パートナーがいれば、自然にわかるもの？",
-            "「感じなきゃ」と思うほど、難しくなることも",
-            "大人の自由研究所では、どう向き合う？",
-            "自分のからだを知ることに、正解はない"
+            "快感には個人差がある",
+            "大人の自由研究所では"
           ]
         },
         {
@@ -123,13 +159,8 @@
           "title": "性欲の強さにはなぜ個人差がある？",
           "status": "published",
           "bodyHeadings": [
-            "性欲が強い人、弱い人。その違いはどこから？",
-            "性欲はホルモンだけで決まるものではない",
-            "性欲には「自然に湧くもの」と「刺激によって生まれるもの」がある？",
-            "パートナーと性欲の強さが違ったら？",
-            "性欲が強すぎる、弱すぎるということはある？",
-            "大人の自由研究所では、どう向き合う？",
-            "性欲の「普通」は、誰が決める？"
+            "性欲は何によって変わる？",
+            "大人の自由研究所では"
           ]
         }
       ]
@@ -143,13 +174,8 @@
           "title": "女性はなぜ男性の求める「エロ」に合わせるのか",
           "status": "published",
           "bodyHeadings": [
-            "その「したい」は、本当に自分の気持ち？",
-            "私たちは、どこで「エロ」を学んできた？",
-            "「嫌われたくない」という気持ちが、自分の希望を隠してしまう",
-            "相手に合わせることは、悪いこと？",
-            "自分が何を望んでいるのかわからないとき",
-            "大人の自由研究所では、どう向き合う？",
-            "誰かの理想より、自分の本音を"
+            "私たちはどこで性的な振る舞いを学ぶ？",
+            "大人の自由研究所では"
           ]
         },
         {
@@ -157,19 +183,17 @@
           "title": "性的な「普通」は誰が決める？",
           "status": "published",
           "bodyHeadings": [
-            "「これって普通なのかな？」と思ったことはありませんか？",
-            "性に関する「平均」は、正解ではない",
-            "「普通でいたい」と思うのはなぜ？",
-            "性的な反応にも、大きな個人差がある",
-            "パートナーとの間でも「普通」は違う",
-            "大人の自由研究所では、どう向き合う？",
-            "あなたにとっての「普通」を考える"
+            "大人の自由研究所では"
           ]
         },
         {
           "slug": "adult-video-and-reality",
           "title": "AVで描かれる性と現実の違い",
-          "status": "preparing"
+          "status": "published",
+          "bodyHeadings": [
+            "AVは性の教科書ではない",
+            "大人の自由研究所では"
+          ]
         }
       ]
     }
