@@ -1,0 +1,14 @@
+/* Scoped to the six consultation categories; other homepage sections retain their styles. */
+#topics-accordion{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;list-style:none;margin:0;padding:0}
+#topics-accordion>li{min-width:0}
+#topics-accordion .topic-accordion{min-width:0;scroll-margin-top:24px}
+#topics-accordion summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:62px;padding:16px 20px;border:1px solid #e8d8cf;border-radius:24px;background:#fffdf9;color:#493a35;font:inherit;font-size:16px;line-height:1.6;cursor:pointer;list-style:none;-webkit-tap-highlight-color:transparent}
+#topics-accordion summary::-webkit-details-marker{display:none}
+#topics-accordion summary::marker{content:""}
+#topics-accordion .topic-chevron{flex:0 0 10px;width:10px;height:10px;border-right:2px solid #9b837b;border-bottom:2px solid #9b837b;transform:translateY(-3px) rotate(45deg)}
+#topics-accordion details[open]>summary .topic-chevron{transform:translateY(3px) rotate(225deg)}
+#topics-accordion .topic-links{list-style:none;margin:8px 0 4px;padding:0 12px}
+#topics-accordion .topic-links a{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:48px;padding:10px 8px;border-radius:12px;color:#604e49;text-decoration:none;font-size:15px;line-height:1.8;overflow-wrap:anywhere}
+#topics-accordion .topic-link-arrow{flex-shrink:0;color:#a78a81;font-size:17px}
+#topics-accordion summary:focus-visible,#topics-accordion a:focus-visible{outline:3px solid #a65d66;outline-offset:3px}
+@media(hover:hover){#topics-accordion summary:hover,#topics-accordion .topic-links a:hover{background:#f4e1e0}}

@@ -1,0 +1,130 @@
+{
+  "categories": [
+    {
+      "id": "romance",
+      "title": "恋愛の悩み",
+      "articles": [
+        {
+          "slug": "unrequited-love-pain",
+          "title": "片思いが苦しいのはなぜ？",
+          "status": "preparing"
+        },
+        {
+          "slug": "jealousy-in-love",
+          "title": "好きな人に嫉妬してしまう心理",
+          "status": "preparing"
+        },
+        {
+          "slug": "love-and-attachment",
+          "title": "恋愛感情と執着の違い",
+          "status": "preparing"
+        }
+      ]
+    },
+    {
+      "id": "partnership",
+      "title": "パートナーとの関係",
+      "articles": [
+        {
+          "slug": "relationship-rut",
+          "title": "恋人・夫婦のマンネリはなぜ起こる？",
+          "status": "preparing"
+        },
+        {
+          "slug": "sexless-and-affection",
+          "title": "セックスレスは愛情がなくなった証拠？",
+          "status": "preparing"
+        },
+        {
+          "slug": "sexual-compatibility",
+          "title": "性の相性は変えられる？",
+          "status": "preparing"
+        }
+      ]
+    },
+    {
+      "id": "relationships",
+      "title": "人間関係の悩み",
+      "articles": [
+        {
+          "slug": "people-pleasing-fatigue",
+          "title": "人に合わせすぎて疲れてしまう理由",
+          "status": "preparing"
+        },
+        {
+          "slug": "difficulty-saying-no",
+          "title": "断るのが苦手なのはなぜ？",
+          "status": "preparing"
+        },
+        {
+          "slug": "comfortable-boundaries",
+          "title": "人との心地よい距離感とは",
+          "status": "preparing"
+        }
+      ]
+    },
+    {
+      "id": "self",
+      "title": "自分自身の悩み",
+      "articles": [
+        {
+          "slug": "understanding-your-feelings",
+          "title": "自分の本音がわからなくなるとき",
+          "status": "preparing"
+        },
+        {
+          "slug": "others-opinions",
+          "title": "他人からの評価が気になる心理",
+          "status": "preparing"
+        },
+        {
+          "slug": "liking-yourself",
+          "title": "自分を好きになるってどういうこと？",
+          "status": "preparing"
+        }
+      ]
+    },
+    {
+      "id": "body",
+      "title": "性とからだの悩み",
+      "articles": [
+        {
+          "slug": "knowing-your-body",
+          "title": "自分のからだを知ることは、なぜ大切？",
+          "status": "preparing"
+        },
+        {
+          "slug": "self-pleasure-and-understanding",
+          "title": "セルフプレジャーと性的な自己理解",
+          "status": "preparing"
+        },
+        {
+          "slug": "differences-in-desire",
+          "title": "性欲の強さにはなぜ個人差がある？",
+          "status": "preparing"
+        }
+      ]
+    },
+    {
+      "id": "values",
+      "title": "性の価値観・疑問",
+      "articles": [
+        {
+          "slug": "expectations-of-eroticism",
+          "title": "女性はなぜ男性の求める「エロ」に合わせるのか",
+          "status": "preparing"
+        },
+        {
+          "slug": "who-defines-normal",
+          "title": "性的な「普通」は誰が決める？",
+          "status": "preparing"
+        },
+        {
+          "slug": "adult-video-and-reality",
+          "title": "AVで描かれる性と現実の違い",
+          "status": "preparing"
+        }
+      ]
+    }
+  ]
+}
