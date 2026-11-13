@@ -5,7 +5,7 @@ const SETTINGS = Object.freeze({
   timeZone: 'Asia/Tokyo',
   minutes: 50,
   daysAhead: 90,
-  siteUrl: 'https://adultcuriositylab.netlify.app/',
+  siteUrl: 'https://adult-curiosity.pages.dev/',
   minimumSubmitIntervalSeconds: 60,
   maximumBookingsPerTenMinutes: 20
 });
@@ -18,7 +18,7 @@ const SERVICES = Object.freeze({
     methods: Object.freeze(['対面'])})
 });
 // 2枠の間に休憩を入れる場合は10。現在の作業用設定は100分連続です。
-const CANCELLATION_POLICY = "キャンセル・日時変更について\n\nご予約のキャンセル・日時変更をご希望の場合は、できるだけお早めにご連絡ください。\n\n・前日までのキャンセル：無料\n・当日のキャンセル：料金の50％\n・無断キャンセル：料金の100％\n・前日までの日時変更：無料\n\nやむを得ない事情がある場合は、個別にご相談ください。\n\n当研究所の都合によりカウンセリングを実施できなくなった場合は、お支払い済みの料金を全額返金いたします。";
+const CANCELLATION_POLICY = "キャンセル・日時変更について\n\nご予約のキャンセル・日時変更をご希望の場合は、できるだけお早めにご連絡ください。\n\n・前日までのキャンセル：無料\n・当日のキャンセル：料金の50％\n・無断キャンセル：料金の100％\n・前日までの日時変更：無料\n\n「前日まで」は、ご予約日の前日23:59まで（日本時間）を指します。\n当日の日時変更は、当日キャンセルと同じ扱いとなり、料金の50％を申し受けます。\nキャンセル料は、運営から予約確定をご連絡したご予約に適用します。仮予約の段階ではキャンセル料はかかりません。\n\nやむを得ない事情がある場合は、個別にご相談ください。\n\n当研究所の都合によりカウンセリングを実施できなくなった場合は、お支払い済みの料金を全額返金いたします。";
 const TWO_SESSION_BREAK_MINUTES = 0;
 const PAYMENT_PREFERENCES = Object.freeze(['クレジットカード', 'PayPay', '現金']);
 
@@ -77,7 +77,7 @@ function doGet(e) {
     if (e && e.parameter && e.parameter.date) {
       return json_(getAvailability(e.parameter.method ? {date: e.parameter.date, method: e.parameter.method, service: e.parameter.service || 'consultation', units: e.parameter.units ? Number(e.parameter.units) : 1} : e.parameter.date));
     }
-    const template = HtmlService.createTemplateFromFile('Booking');
+    const template = HtmlService.createTemplateFromFile('BookingV2');
     template.siteUrl = SETTINGS.siteUrl;
     return template.evaluate()
       .addMetaTag('viewport', 'width=device-width, initial-scale=1')
