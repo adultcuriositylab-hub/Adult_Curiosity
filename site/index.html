@@ -261,6 +261,7 @@ header.content-width{padding-top:24px;padding-bottom:20px;gap:18px}
 .hero-characters img{max-width:440px;height:auto;mix-blend-mode:multiply}
 </style>
 <style id="fixed-pricing-note">.pricing-service-note{font-size:13px;line-height:1.8;color:#715f59;margin:0 0 20px}</style>
+<link rel="stylesheet" href="assets/topics.css">
 </head>
  <body data-template-id="__page-root" style="background: rgb(255, 250, 242);">
   <div class="site-shell">
@@ -310,14 +311,46 @@ header.content-width{padding-top:24px;padding-bottom:20px;gap:18px}
       </div>
       <div>
        <h3 data-template-id="topics-heading" class="canva-text mb-4 font-bold text-[#493a35]" style="color: rgb(73, 58, 53); font-weight: 700; font-style: normal; font-size: 19px;">こんなことを話せます</h3>
-       <ul class="grid gap-3 sm:grid-cols-2">
-        <li data-template-id="topic-one" class="canva-card soft-card bg-[#fffdf9] px-5 py-4" style="background: rgb(255, 253, 249); font-weight: 400; font-style: normal; font-size: 16px;">恋愛の悩み</li>
-        <li data-template-id="topic-two" class="canva-card soft-card bg-[#fffdf9] px-5 py-4" style="background: rgb(255, 253, 249); font-weight: 400; font-style: normal; font-size: 16px;">パートナーとの関係</li>
-        <li data-template-id="topic-three" class="canva-card soft-card bg-[#fffdf9] px-5 py-4" style="background: rgb(255, 253, 249); font-weight: 400; font-style: normal; font-size: 16px;">家族・友人・職場の人間関係</li>
-        <li data-template-id="topic-four" class="canva-card soft-card bg-[#fffdf9] px-5 py-4" style="background: rgb(255, 253, 249); font-weight: 400; font-style: normal; font-size: 16px;">自分の気持ちの整理</li>
-        <li data-template-id="topic-five" class="canva-card soft-card bg-[#fffdf9] px-5 py-4" style="background: rgb(255, 253, 249); font-weight: 400; font-style: normal; font-size: 16px;">心とからだについての気になること</li>
-        <li data-template-id="topic-six" class="canva-card soft-card bg-[#fffdf9] px-5 py-4" style="background: rgb(255, 253, 249); font-weight: 400; font-style: normal; font-size: 16px;">誰にも言いにくいモヤモヤ</li>
-       </ul>
+       <!-- BEGIN TOPIC ARTICLES -->
+<ul id="topics-accordion" aria-label="相談カテゴリーと記事">
+<li><details class="topic-accordion" id="topic-romance">
+<summary><span>恋愛の悩み</span><span class="topic-chevron" aria-hidden="true"></span></summary>
+<ul class="topic-links"><li><a href="articles/unrequited-love-pain/"><span>片思いが苦しいのはなぜ？</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li>
+<li><a href="articles/jealousy-in-love/"><span>好きな人に嫉妬してしまう心理</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li>
+<li><a href="articles/love-and-attachment/"><span>恋愛感情と執着の違い</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li></ul>
+</details></li>
+<li><details class="topic-accordion" id="topic-partnership">
+<summary><span>パートナーとの関係</span><span class="topic-chevron" aria-hidden="true"></span></summary>
+<ul class="topic-links"><li><a href="articles/relationship-rut/"><span>恋人・夫婦のマンネリはなぜ起こる？</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li>
+<li><a href="articles/sexless-and-affection/"><span>セックスレスは愛情がなくなった証拠？</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li>
+<li><a href="articles/sexual-compatibility/"><span>性の相性は変えられる？</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li></ul>
+</details></li>
+<li><details class="topic-accordion" id="topic-relationships">
+<summary><span>人間関係の悩み</span><span class="topic-chevron" aria-hidden="true"></span></summary>
+<ul class="topic-links"><li><a href="articles/people-pleasing-fatigue/"><span>人に合わせすぎて疲れてしまう理由</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li>
+<li><a href="articles/difficulty-saying-no/"><span>断るのが苦手なのはなぜ？</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li>
+<li><a href="articles/comfortable-boundaries/"><span>人との心地よい距離感とは</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li></ul>
+</details></li>
+<li><details class="topic-accordion" id="topic-self">
+<summary><span>自分自身の悩み</span><span class="topic-chevron" aria-hidden="true"></span></summary>
+<ul class="topic-links"><li><a href="articles/understanding-your-feelings/"><span>自分の本音がわからなくなるとき</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li>
+<li><a href="articles/others-opinions/"><span>他人からの評価が気になる心理</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li>
+<li><a href="articles/liking-yourself/"><span>自分を好きになるってどういうこと？</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li></ul>
+</details></li>
+<li><details class="topic-accordion" id="topic-body">
+<summary><span>性とからだの悩み</span><span class="topic-chevron" aria-hidden="true"></span></summary>
+<ul class="topic-links"><li><a href="articles/knowing-your-body/"><span>自分のからだを知ることは、なぜ大切？</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li>
+<li><a href="articles/self-pleasure-and-understanding/"><span>セルフプレジャーと性的な自己理解</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li>
+<li><a href="articles/differences-in-desire/"><span>性欲の強さにはなぜ個人差がある？</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li></ul>
+</details></li>
+<li><details class="topic-accordion" id="topic-values">
+<summary><span>性の価値観・疑問</span><span class="topic-chevron" aria-hidden="true"></span></summary>
+<ul class="topic-links"><li><a href="articles/expectations-of-eroticism/"><span>女性はなぜ男性の求める「エロ」に合わせるのか</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li>
+<li><a href="articles/who-defines-normal/"><span>性的な「普通」は誰が決める？</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li>
+<li><a href="articles/adult-video-and-reality/"><span>AVで描かれる性と現実の違い</span><span class="topic-link-arrow" aria-hidden="true">↗</span></a></li></ul>
+</details></li>
+</ul>
+<!-- END TOPIC ARTICLES -->
        <p data-template-id="medical-note" class="canva-text mt-5 text-[#715f59]" style="font-size: 13px; color: rgb(113, 95, 89); font-weight: 400; font-style: normal;">※ 医療的な診断や治療を行う場ではありません。</p>
       </div>
      </div>
