@@ -6,9 +6,9 @@ from urllib.parse import urlparse
 
 url = 'https://adult-curiosity.pages.dev/api/note'
 last_error = 'deployment has not finished'
-for attempt in range(48):
+for attempt in range(12):
     try:
-        request = urllib.request.Request(url, headers={'Accept': 'application/json', 'Cache-Control': 'no-cache'})
+        request = urllib.request.Request(url, headers={'Accept': '*/*', 'Cache-Control': 'no-cache', 'User-Agent': 'AdultCuriosityLab-FeedCheck/1.0'})
         with urllib.request.urlopen(request, timeout=15) as response:
             assert response.status == 200
             assert 'application/json' in response.headers.get('Content-Type', '')
