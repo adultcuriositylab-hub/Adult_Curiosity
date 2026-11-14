@@ -18,13 +18,22 @@
     const boundary = title.indexOf('。');
     return boundary >= 8 && boundary < 45 && boundary < title.length - 1 ? [title.slice(0, boundary + 1), title.slice(boundary + 1).trim()] : [title, ''];
   }
+  function appendTitlePhrases(node, title) {
+    const phrases = []; let phrase = '';
+    for (const character of title) {
+      phrase += character;
+      if (character === '、' || character === '，') { phrases.push(phrase); phrase = ''; }
+    }
+    if (phrase) phrases.push(phrase);
+    node.replaceChildren(...phrases.map(text => element('span', 'note-title-phrase', text)));
+  }
   function featured(item, url) {
     const card = element('article', 'note-card note-featured');
     const meta = element('div', 'note-featured-meta'); meta.append(element('span', 'note-new-label', 'NEW ARTICLE'));
     const date = dateFor(item); if (date) meta.append(date); card.append(meta);
     const paper = element('div', 'note-featured-paper');
     const [title, subtitle] = titleParts(item.title);
-    const heading = element('h3', 'note-featured-title'); const titleLink = link(url, title, 'note-title-link'); titleLink.setAttribute('aria-label', item.title); heading.append(titleLink); paper.append(heading);
+    const heading = element('h3', 'note-featured-title'); const titleLink = link(url, title, 'note-title-link'); appendTitlePhrases(titleLink, title); titleLink.setAttribute('aria-label', item.title); heading.append(titleLink); paper.append(heading);
     if (subtitle) paper.append(element('p', 'note-subtitle', subtitle));
     if (typeof item.excerpt === 'string' && item.excerpt.trim()) paper.append(element('p', 'note-excerpt', item.excerpt));
     card.append(paper);
