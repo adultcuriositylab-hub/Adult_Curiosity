@@ -1,0 +1,1 @@
+{"name":"adult-curiosity-site","private":true,"type":"module","scripts":{"test:note":"node --test tests/note-feed.test.js"},"dependencies":{"fast-xml-parser":"5.12.1","html-entities":"2.6.0"}}

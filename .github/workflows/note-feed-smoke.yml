@@ -1,0 +1,27 @@
+name: Verify automatic note feed
+on:
+  push:
+    branches: [cloudflare-site]
+    paths:
+      - 'functions/api/note.js'
+      - 'server/note-feed.js'
+      - 'site/assets/note-feed.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tests/note-live-smoke.py'
+      - '.github/workflows/note-feed-smoke.yml'
+permissions:
+  contents: read
+jobs:
+  note-feed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --ignore-scripts --no-fund
+      - run: node tests/note-feed.test.js
+      - name: Verify public RSS-backed endpoint after deployment
+        run: python3 tests/note-live-smoke.py
