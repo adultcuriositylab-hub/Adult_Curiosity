@@ -263,6 +263,8 @@ header.content-width{padding-top:24px;padding-bottom:20px;gap:18px}
 <style id="fixed-pricing-note">.pricing-service-note{font-size:13px;line-height:1.8;color:#715f59;margin:0 0 20px}</style>
 <link rel="stylesheet" href="assets/topics.css">
 <style id="cancellation-link-button">.cancellation-policy-button{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:52px;margin:18px 0 8px;padding:13px 18px;border:1px solid #bd777b;border-radius:999px;background:#f6eae5;color:#854b53;font-size:15px;font-weight:500;line-height:1.6;text-align:center;text-decoration:none;box-sizing:border-box;-webkit-tap-highlight-color:transparent}.cancellation-policy-button:hover{background:#f4e1e0}.cancellation-policy-button:focus-visible{outline:3px solid #854b53;outline-offset:4px}.cancellation-policy-button svg{flex-shrink:0;width:16px;height:16px}</style>
+<link rel="stylesheet" href="assets/note-feed.css">
+<script src="assets/note-feed.js" defer></script>
 </head>
  <body data-template-id="__page-root" style="background: rgb(255, 250, 242);">
   <div class="site-shell">
@@ -421,6 +423,15 @@ header.content-width{padding-top:24px;padding-bottom:20px;gap:18px}
       </div>
      </div>
     </section>
+<section id="note-updates" class="content-width" aria-labelledby="note-heading">
+<p class="eyebrow" style="color:#a65d66;font-weight:700;margin-bottom:12px">FROM NOTE</p>
+<h2 id="note-heading" class="note-heading">noteの新着記事</h2>
+<p class="note-intro">恋愛や性、人間関係について、noteでも発信しています。</p>
+<div id="note-articles" class="note-grid"></div>
+<p id="note-status" class="note-status" role="status" aria-live="polite">記事を読み込んでいます…</p>
+<noscript><p class="note-status">新しい記事は、下のリンクからnoteでご覧いただけます。</p></noscript>
+<a class="note-all" href="https://note.com/adult_curiosity" target="_blank" rel="noopener noreferrer">noteの記事をすべて見る ↗</a>
+</section>
     <section id="questions" aria-labelledby="questions-heading" class="content-width py-16 md:py-24">
      <div class="grid items-center gap-8 md:grid-cols-[1.2fr_.8fr] md:gap-16">
       <div>
