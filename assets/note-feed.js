@@ -23,7 +23,6 @@
     const meta = element('div', 'note-featured-meta'); meta.append(element('span', 'note-new-label', 'NEW ARTICLE'));
     const date = dateFor(item); if (date) meta.append(date); card.append(meta);
     const paper = element('div', 'note-featured-paper');
-    paper.append(element('p', 'note-series', '大人の自由研究所 / NOTE'));
     const [title, subtitle] = titleParts(item.title);
     const heading = element('h3', 'note-featured-title'); const titleLink = link(url, title, 'note-title-link'); titleLink.setAttribute('aria-label', item.title); heading.append(titleLink); paper.append(heading);
     if (subtitle) paper.append(element('p', 'note-subtitle', subtitle));
@@ -63,10 +62,11 @@
         cards.push(cards.length === 0 ? featured(item, url) : compact(item, url, cards.length + 1));
       }
       list.replaceChildren(...cards);
-      status.textContent = cards.length ? (data.stale ? '新しい記事はnoteでもご覧いただけます。' : '') : '記事の公開を準備しています。右上のnoteからもご覧いただけます。';
       status.hidden = cards.length > 0 && !data.stale;
+      if (!status.hidden) status.replaceChildren(document.createTextNode(cards.length ? '新しい記事はnoteでご覧いただけます。 ' : '記事の公開を準備しています。 '), link(profile, 'noteで記事を見る ↗', 'note-fallback-link'));
+      else status.replaceChildren();
     } catch {
-      if (current === sequence) { status.hidden = false; status.textContent = '最新の記事は、右上のnoteからご覧ください。'; }
+      if (current === sequence) { status.hidden = false; status.replaceChildren(document.createTextNode('最新の記事はnoteからご覧ください。 '), link(profile, 'noteで記事を見る ↗', 'note-fallback-link')); }
     } finally { clearTimeout(timer); }
   }
   load();
